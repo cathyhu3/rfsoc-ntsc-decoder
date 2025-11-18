@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado" Owner="thagenlo" Host="eecs-digital-42" Pid="143587" HostCore="16" HostMemory="28654752">
+    </Process>
+</ProcessHandle>
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado" Owner="thagenlo" Host="eecs-digital-42" Pid="204137" HostCore="16" HostMemory="28654752">
+    </Process>
+</ProcessHandle>
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado" Owner="thagenlo" Host="eecs-digital-42" Pid="270466" HostCore="16" HostMemory="28654752">
+    </Process>
+</ProcessHandle>
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado" Owner="thagenlo" Host="eecs-digital-42" Pid="338266" HostCore="16" HostMemory="28654752">
+    </Process>
+</ProcessHandle>

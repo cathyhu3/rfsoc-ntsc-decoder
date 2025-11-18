@@ -1,0 +1,335 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Mon Nov 17 21:00:03 2025
+# Process ID         : 337983
+# Current directory  : /home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1
+# Command line       : vivado -log design_1_wrapper.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source design_1_wrapper.tcl
+# Log file           : /home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/design_1_wrapper.vds
+# Journal file       : /home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/vivado.jou
+# Running On         : eecs-digital-42
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.3 LTS
+# Processor Detail   : AMD Ryzen 7 5825U with Radeon Graphics
+# CPU Frequency      : 3508.223 MHz
+# CPU Physical cores : 8
+# CPU Logical cores  : 16
+# Host memory        : 29342 MB
+# Swap memory        : 8589 MB
+# Total Virtual      : 37932 MB
+# Available Virtual  : 28847 MB
+#-----------------------------------------------------------
+source design_1_wrapper.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/thagenlo/Desktop/ip_repo/iq_framer_1_0'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/2025.1/Vivado/data/ip'.
+Command: read_checkpoint -auto_incremental -incremental /home/thagenlo/Desktop/dma_data/rfsoc_proj.srcs/utils_1/imports/synth_1/design_1_wrapper.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from /home/thagenlo/Desktop/dma_data/rfsoc_proj.srcs/utils_1/imports/synth_1/design_1_wrapper.dcp for incremental synthesis
+INFO: [Vivado 12-7989] Please ensure there are no constraint changes
+Command: synth_design -top design_1_wrapper -part xczu48dr-ffvg1517-2-e
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xczu48dr'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xczu48dr'
+INFO: [Device 21-403] Loading part xczu48dr-ffvg1517-2-e
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 338065
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2861.137 ; gain = 333.773 ; free physical = 8586 ; free virtual = 25387
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'design_1_wrapper' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v:13]
+INFO: [Synth 8-6157] synthesizing module 'design_1' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:13]
+INFO: [Synth 8-6157] synthesizing module 'design_1_axi_dma_0_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_axi_dma_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_axi_dma_0_0' (0#1) [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_axi_dma_0_0_stub.v:6]
+WARNING: [Synth 8-7071] port 's2mm_prmry_reset_out_n' of module 'design_1_axi_dma_0_0' is unconnected for instance 'axi_dma_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:210]
+WARNING: [Synth 8-7071] port 's2mm_introut' of module 'design_1_axi_dma_0_0' is unconnected for instance 'axi_dma_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:210]
+WARNING: [Synth 8-7071] port 'axi_dma_tstvec' of module 'design_1_axi_dma_0_0' is unconnected for instance 'axi_dma_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:210]
+WARNING: [Synth 8-7023] instance 'axi_dma_0' of module 'design_1_axi_dma_0_0' has 43 connections declared, but only 40 given [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:210]
+INFO: [Synth 8-6157] synthesizing module 'design_1_axi_smc_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_axi_smc_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_axi_smc_0' (0#1) [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_axi_smc_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'M00_AXI_awprot' of module 'design_1_axi_smc_0' is unconnected for instance 'axi_smc' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:251]
+WARNING: [Synth 8-7071] port 'M00_AXI_wstrb' of module 'design_1_axi_smc_0' is unconnected for instance 'axi_smc' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:251]
+WARNING: [Synth 8-7071] port 'M00_AXI_arprot' of module 'design_1_axi_smc_0' is unconnected for instance 'axi_smc' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:251]
+WARNING: [Synth 8-7071] port 'M01_AXI_awprot' of module 'design_1_axi_smc_0' is unconnected for instance 'axi_smc' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:251]
+WARNING: [Synth 8-7071] port 'M01_AXI_arprot' of module 'design_1_axi_smc_0' is unconnected for instance 'axi_smc' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:251]
+WARNING: [Synth 8-7023] instance 'axi_smc' of module 'design_1_axi_smc_0' has 118 connections declared, but only 113 given [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:251]
+INFO: [Synth 8-6157] synthesizing module 'design_1_axi_smc_1_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_axi_smc_1_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_axi_smc_1_0' (0#1) [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_axi_smc_1_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'design_1_axis_data_fifo_0_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_axis_data_fifo_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_axis_data_fifo_0_0' (0#1) [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_axis_data_fifo_0_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'm_axis_tstrb' of module 'design_1_axis_data_fifo_0_0' is unconnected for instance 'axis_data_fifo_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:404]
+WARNING: [Synth 8-7023] instance 'axis_data_fifo_0' of module 'design_1_axis_data_fifo_0_0' has 13 connections declared, but only 12 given [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:404]
+INFO: [Synth 8-6157] synthesizing module 'design_1_cic_compiler_0_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_cic_compiler_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_cic_compiler_0_0' (0#1) [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_cic_compiler_0_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'design_1_cic_compiler_0_1' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_cic_compiler_0_1_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_cic_compiler_0_1' (0#1) [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_cic_compiler_0_1_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'design_1_iq_framer_0_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_iq_framer_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_iq_framer_0_0' (0#1) [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_iq_framer_0_0_stub.v:6]
+WARNING: [Synth 8-7071] port 's00_axis_tready' of module 'design_1_iq_framer_0_0' is unconnected for instance 'iq_framer_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:431]
+WARNING: [Synth 8-7071] port 's01_axis_tready' of module 'design_1_iq_framer_0_0' is unconnected for instance 'iq_framer_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:431]
+WARNING: [Synth 8-7023] instance 'iq_framer_0' of module 'design_1_iq_framer_0_0' has 23 connections declared, but only 21 given [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:431]
+INFO: [Synth 8-6157] synthesizing module 'design_1_proc_sys_reset_0_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_proc_sys_reset_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_proc_sys_reset_0_0' (0#1) [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_proc_sys_reset_0_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'mb_reset' of module 'design_1_proc_sys_reset_0_0' is unconnected for instance 'proc_sys_reset_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:453]
+WARNING: [Synth 8-7071] port 'bus_struct_reset' of module 'design_1_proc_sys_reset_0_0' is unconnected for instance 'proc_sys_reset_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:453]
+WARNING: [Synth 8-7071] port 'peripheral_reset' of module 'design_1_proc_sys_reset_0_0' is unconnected for instance 'proc_sys_reset_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:453]
+WARNING: [Synth 8-7071] port 'interconnect_aresetn' of module 'design_1_proc_sys_reset_0_0' is unconnected for instance 'proc_sys_reset_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:453]
+WARNING: [Synth 8-7023] instance 'proc_sys_reset_0' of module 'design_1_proc_sys_reset_0_0' has 10 connections declared, but only 6 given [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:453]
+INFO: [Synth 8-6157] synthesizing module 'design_1_proc_sys_reset_1_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_proc_sys_reset_1_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_proc_sys_reset_1_0' (0#1) [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_proc_sys_reset_1_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'mb_reset' of module 'design_1_proc_sys_reset_1_0' is unconnected for instance 'proc_sys_reset_1' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:460]
+WARNING: [Synth 8-7071] port 'bus_struct_reset' of module 'design_1_proc_sys_reset_1_0' is unconnected for instance 'proc_sys_reset_1' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:460]
+WARNING: [Synth 8-7071] port 'peripheral_reset' of module 'design_1_proc_sys_reset_1_0' is unconnected for instance 'proc_sys_reset_1' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:460]
+WARNING: [Synth 8-7071] port 'interconnect_aresetn' of module 'design_1_proc_sys_reset_1_0' is unconnected for instance 'proc_sys_reset_1' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:460]
+WARNING: [Synth 8-7023] instance 'proc_sys_reset_1' of module 'design_1_proc_sys_reset_1_0' has 10 connections declared, but only 6 given [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:460]
+INFO: [Synth 8-6157] synthesizing module 'design_1_usp_rf_data_converter_0_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_usp_rf_data_converter_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_usp_rf_data_converter_0_0' (0#1) [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_usp_rf_data_converter_0_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'irq' of module 'design_1_usp_rf_data_converter_0_0' is unconnected for instance 'usp_rf_data_converter_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:467]
+WARNING: [Synth 8-7023] instance 'usp_rf_data_converter_0' of module 'design_1_usp_rf_data_converter_0_0' has 35 connections declared, but only 34 given [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:467]
+INFO: [Synth 8-6157] synthesizing module 'design_1_zynq_ultra_ps_e_0_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_zynq_ultra_ps_e_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_zynq_ultra_ps_e_0_0' (0#1) [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/.Xil/Vivado-337983-eecs-digital-42/realtime/design_1_zynq_ultra_ps_e_0_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'saxigp2_bid' of module 'design_1_zynq_ultra_ps_e_0_0' is unconnected for instance 'zynq_ultra_ps_e_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:502]
+WARNING: [Synth 8-7071] port 'saxigp2_arready' of module 'design_1_zynq_ultra_ps_e_0_0' is unconnected for instance 'zynq_ultra_ps_e_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:502]
+WARNING: [Synth 8-7071] port 'saxigp2_rid' of module 'design_1_zynq_ultra_ps_e_0_0' is unconnected for instance 'zynq_ultra_ps_e_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:502]
+WARNING: [Synth 8-7071] port 'saxigp2_rdata' of module 'design_1_zynq_ultra_ps_e_0_0' is unconnected for instance 'zynq_ultra_ps_e_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:502]
+WARNING: [Synth 8-7071] port 'saxigp2_rresp' of module 'design_1_zynq_ultra_ps_e_0_0' is unconnected for instance 'zynq_ultra_ps_e_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:502]
+WARNING: [Synth 8-7071] port 'saxigp2_rlast' of module 'design_1_zynq_ultra_ps_e_0_0' is unconnected for instance 'zynq_ultra_ps_e_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:502]
+WARNING: [Synth 8-7071] port 'saxigp2_rvalid' of module 'design_1_zynq_ultra_ps_e_0_0' is unconnected for instance 'zynq_ultra_ps_e_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:502]
+WARNING: [Synth 8-7071] port 'emio_gpio_o' of module 'design_1_zynq_ultra_ps_e_0_0' is unconnected for instance 'zynq_ultra_ps_e_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:502]
+WARNING: [Synth 8-7071] port 'emio_gpio_t' of module 'design_1_zynq_ultra_ps_e_0_0' is unconnected for instance 'zynq_ultra_ps_e_0' [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:502]
+WARNING: [Synth 8-7023] instance 'zynq_ultra_ps_e_0' of module 'design_1_zynq_ultra_ps_e_0_0' has 127 connections declared, but only 118 given [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:502]
+INFO: [Synth 8-6155] done synthesizing module 'design_1' (0#1) [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/synth/design_1.v:13]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_wrapper' (0#1) [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v:13]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2941.105 ; gain = 413.742 ; free physical = 8498 ; free virtual = 25300
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2952.980 ; gain = 425.617 ; free physical = 8498 ; free virtual = 25300
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2952.980 ; gain = 425.617 ; free physical = 8498 ; free virtual = 25300
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2952.980 ; gain = 0.000 ; free physical = 8498 ; free virtual = 25300
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_zynq_ultra_ps_e_0_0/design_1_zynq_ultra_ps_e_0_0/design_1_zynq_ultra_ps_e_0_0_in_context.xdc] for cell 'design_1_i/zynq_ultra_ps_e_0'
+Finished Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_zynq_ultra_ps_e_0_0/design_1_zynq_ultra_ps_e_0_0/design_1_zynq_ultra_ps_e_0_0_in_context.xdc] for cell 'design_1_i/zynq_ultra_ps_e_0'
+Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_axi_dma_0_0/design_1_axi_dma_0_0/design_1_axi_dma_0_0_in_context.xdc] for cell 'design_1_i/axi_dma_0'
+Finished Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_axi_dma_0_0/design_1_axi_dma_0_0/design_1_axi_dma_0_0_in_context.xdc] for cell 'design_1_i/axi_dma_0'
+Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_usp_rf_data_converter_0_0/design_1_usp_rf_data_converter_0_0/design_1_usp_rf_data_converter_0_0_in_context.xdc] for cell 'design_1_i/usp_rf_data_converter_0'
+Finished Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_usp_rf_data_converter_0_0/design_1_usp_rf_data_converter_0_0/design_1_usp_rf_data_converter_0_0_in_context.xdc] for cell 'design_1_i/usp_rf_data_converter_0'
+Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_iq_framer_0_0/design_1_iq_framer_0_0/design_1_iq_framer_0_0_in_context.xdc] for cell 'design_1_i/iq_framer_0'
+Finished Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_iq_framer_0_0/design_1_iq_framer_0_0/design_1_iq_framer_0_0_in_context.xdc] for cell 'design_1_i/iq_framer_0'
+Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_axis_data_fifo_0_0/design_1_axis_data_fifo_0_0/design_1_axis_data_fifo_0_0_in_context.xdc] for cell 'design_1_i/axis_data_fifo_0'
+Finished Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_axis_data_fifo_0_0/design_1_axis_data_fifo_0_0/design_1_axis_data_fifo_0_0_in_context.xdc] for cell 'design_1_i/axis_data_fifo_0'
+Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_proc_sys_reset_0_0/design_1_proc_sys_reset_0_0/design_1_proc_sys_reset_0_0_in_context.xdc] for cell 'design_1_i/proc_sys_reset_0'
+Finished Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_proc_sys_reset_0_0/design_1_proc_sys_reset_0_0/design_1_proc_sys_reset_0_0_in_context.xdc] for cell 'design_1_i/proc_sys_reset_0'
+Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_proc_sys_reset_1_0/design_1_proc_sys_reset_1_0/design_1_proc_sys_reset_1_0_in_context.xdc] for cell 'design_1_i/proc_sys_reset_1'
+Finished Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_proc_sys_reset_1_0/design_1_proc_sys_reset_1_0/design_1_proc_sys_reset_1_0_in_context.xdc] for cell 'design_1_i/proc_sys_reset_1'
+Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_axi_smc_0/design_1_axi_smc_0/design_1_axi_smc_0_in_context.xdc] for cell 'design_1_i/axi_smc'
+Finished Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_axi_smc_0/design_1_axi_smc_0/design_1_axi_smc_0_in_context.xdc] for cell 'design_1_i/axi_smc'
+Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_axi_smc_1_0/design_1_axi_smc_1_0/design_1_axi_smc_1_0_in_context.xdc] for cell 'design_1_i/axi_smc_1'
+Finished Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_axi_smc_1_0/design_1_axi_smc_1_0/design_1_axi_smc_1_0_in_context.xdc] for cell 'design_1_i/axi_smc_1'
+Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_cic_compiler_0_0/design_1_cic_compiler_0_0/design_1_cic_compiler_0_0_in_context.xdc] for cell 'design_1_i/cic_compiler_0'
+Finished Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_cic_compiler_0_0/design_1_cic_compiler_0_0/design_1_cic_compiler_0_0_in_context.xdc] for cell 'design_1_i/cic_compiler_0'
+Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_cic_compiler_0_1/design_1_cic_compiler_0_1/design_1_cic_compiler_0_0_in_context.xdc] for cell 'design_1_i/cic_compiler_1'
+Finished Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_cic_compiler_0_1/design_1_cic_compiler_0_1/design_1_cic_compiler_0_0_in_context.xdc] for cell 'design_1_i/cic_compiler_1'
+Parsing XDC File [/home/thagenlo/Downloads/base.xdc]
+Finished Parsing XDC File [/home/thagenlo/Downloads/base.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/thagenlo/Downloads/base.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/design_1_wrapper_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/design_1_wrapper_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/dont_touch.xdc]
+Finished Parsing XDC File [/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/dont_touch.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3000.633 ; gain = 0.000 ; free physical = 8613 ; free virtual = 25416
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3000.668 ; gain = 0.000 ; free physical = 8614 ; free virtual = 25416
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 3000.668 ; gain = 473.305 ; free physical = 8633 ; free virtual = 25435
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xczu48dr-ffvg1517-2-e
+INFO: [Synth 8-6742] Reading net delay rules and data
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 3008.637 ; gain = 481.273 ; free physical = 8633 ; free virtual = 25435
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:11 ; elapsed = 00:00:12 . Memory (MB): peak = 3008.637 ; gain = 481.273 ; free physical = 8633 ; free virtual = 25435
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:12 ; elapsed = 00:00:12 . Memory (MB): peak = 3008.637 ; gain = 481.273 ; free physical = 8631 ; free virtual = 25434
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 4272 (col length:192)
+BRAMs: 2160 (col length: RAMB18 192 RAMB36 96)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 3008.637 ; gain = 481.273 ; free physical = 8632 ; free virtual = 25440
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 3505.578 ; gain = 978.215 ; free physical = 8209 ; free virtual = 25017
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 3506.578 ; gain = 979.215 ; free physical = 8209 ; free virtual = 25017
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 3516.594 ; gain = 989.230 ; free physical = 8193 ; free virtual = 25001
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 3686.406 ; gain = 1159.043 ; free physical = 8060 ; free virtual = 24868
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 3686.406 ; gain = 1159.043 ; free physical = 8060 ; free virtual = 24868
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 3686.406 ; gain = 1159.043 ; free physical = 8060 ; free virtual = 24868
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 3686.406 ; gain = 1159.043 ; free physical = 8060 ; free virtual = 24868
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 3686.406 ; gain = 1159.043 ; free physical = 8060 ; free virtual = 24868
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 3686.406 ; gain = 1159.043 ; free physical = 8060 ; free virtual = 24868
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++------+-----------------------------------+----------+
+|      |BlackBox name                      |Instances |
++------+-----------------------------------+----------+
+|1     |design_1_axi_dma_0_0               |         1|
+|2     |design_1_axi_smc_0                 |         1|
+|3     |design_1_axi_smc_1_0               |         1|
+|4     |design_1_axis_data_fifo_0_0        |         1|
+|5     |design_1_cic_compiler_0_0          |         1|
+|6     |design_1_cic_compiler_0_1          |         1|
+|7     |design_1_iq_framer_0_0             |         1|
+|8     |design_1_proc_sys_reset_0_0        |         1|
+|9     |design_1_proc_sys_reset_1_0        |         1|
+|10    |design_1_usp_rf_data_converter_0_0 |         1|
+|11    |design_1_zynq_ultra_ps_e_0_0       |         1|
++------+-----------------------------------+----------+
+
+Report Cell Usage: 
++------+---------------------------------+------+
+|      |Cell                             |Count |
++------+---------------------------------+------+
+|1     |design_1_axi_dma_0               |     1|
+|2     |design_1_axi_smc                 |     1|
+|3     |design_1_axi_smc_1               |     1|
+|4     |design_1_axis_data_fifo_0        |     1|
+|5     |design_1_cic_compiler_0          |     2|
+|7     |design_1_iq_framer_0             |     1|
+|8     |design_1_proc_sys_reset_0        |     1|
+|9     |design_1_proc_sys_reset_1        |     1|
+|10    |design_1_usp_rf_data_converter_0 |     1|
+|11    |design_1_zynq_ultra_ps_e_0       |     1|
+|12    |IBUF                             |     4|
+|13    |OBUF                             |     4|
++------+---------------------------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 3686.406 ; gain = 1159.043 ; free physical = 8060 ; free virtual = 24868
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 1 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 3686.406 ; gain = 1111.355 ; free physical = 8069 ; free virtual = 24877
+Synthesis Optimization Complete : Time (s): cpu = 00:00:18 ; elapsed = 00:00:19 . Memory (MB): peak = 3686.406 ; gain = 1159.043 ; free physical = 8069 ; free virtual = 24877
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 3686.406 ; gain = 0.000 ; free physical = 8219 ; free virtual = 25027
+INFO: [Netlist 29-17] Analyzing 4 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3686.406 ; gain = 0.000 ; free physical = 8219 ; free virtual = 25027
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 4 instances were transformed.
+  IBUF => IBUF (IBUFCTRL, INBUF): 4 instances
+
+Synth Design complete | Checksum: 60adbc25
+INFO: [Common 17-83] Releasing license: Synthesis
+51 Infos, 38 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:26 ; elapsed = 00:00:26 . Memory (MB): peak = 3686.406 ; gain = 2106.336 ; free physical = 8219 ; free virtual = 25027
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 2798.564; main = 2798.564; forked = 274.927
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3964.508; main = 3640.094; forked = 963.871
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3686.406 ; gain = 0.000 ; free physical = 8219 ; free virtual = 25027
+INFO: [Common 17-1381] The checkpoint '/home/thagenlo/Desktop/dma_data/rfsoc_proj.runs/synth_1/design_1_wrapper.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file design_1_wrapper_utilization_synth.rpt -pb design_1_wrapper_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Mon Nov 17 21:00:36 2025...

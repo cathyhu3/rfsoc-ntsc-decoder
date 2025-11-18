@@ -1,0 +1,58 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2025.1 (lin64) Build 6140274 Wed May 21 22:58:25 MDT 2025
+| Date         : Mon Nov 17 20:19:16 2025
+| Host         : eecs-digital-42 running 64-bit Ubuntu 24.04.3 LTS
+| Command      : upgrade_ip
+| Device       : xczu48dr-ffvg1517-2-e
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'design_1_iq_framer_0_0'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of design_1_iq_framer_0_0 (user.org:user:iq_framer:1.0) from (Rev. 5) to (Rev. 6)
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2025.1 (lin64) Build 6140274 Wed May 21 22:58:25 MDT 2025
+| Date         : Fri Oct 24 10:59:59 2025
+| Host         : eecs-digital-42 running 64-bit Ubuntu 24.04.3 LTS
+| Command      : upgrade_ip
+| Device       : xczu48dr-ffvg1517-2-e
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'design_1_iq_framer_0_0'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of design_1_iq_framer_0_0 (user.org:user:iq_framer:1.0) from (Rev. 4) to (Rev. 5)
+
+
+
+
+
+
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2025.1 (lin64) Build 6140274 Wed May 21 22:58:25 MDT 2025
+| Date         : Fri Oct 24 10:12:51 2025
+| Host         : eecs-digital-42 running 64-bit Ubuntu 24.04.3 LTS
+| Command      : upgrade_ip
+| Device       : xczu48dr-ffvg1517-2-e
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'design_1_iq_framer_0_0'
+
+1. Summary
+----------
+
+SUCCESS in the upgrade of design_1_iq_framer_0_0 (user.org:user:iq_framer:1.0) from (Rev. 3) to (Rev. 4)
+
