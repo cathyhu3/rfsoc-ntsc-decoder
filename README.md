@@ -1,1 +1,1 @@
-# rfsoc-nstc-decoder
+# rfsoc-ntsc-decoder
