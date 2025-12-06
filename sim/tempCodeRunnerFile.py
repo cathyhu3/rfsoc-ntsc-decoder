@@ -1,0 +1,2 @@
+hsyncs = []
+    colorbursts = []
