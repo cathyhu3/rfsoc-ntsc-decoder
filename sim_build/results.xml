@@ -1,0 +1,6 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1765043047" />
+    <testcase name="test_a" classname="test_hsync_detector_axis" file="/Users/cathyhu/fall2025/rfsoc-ntsc-decoder/sim/test_hsync_detector_axis.py" lineno="74" time="134.600567817688" sim_time_ns="2016630.000001" ratio_time="14982.329069610305" />
+  </testsuite>
+</testsuites>
