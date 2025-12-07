@@ -205,7 +205,7 @@ module top #
         .s00_axis_tlast(s00_axis_tlast),
         .s00_axis_tvalid(s00_axis_tvalid),
         .s00_axis_tdata({16'b0, cordic_magnitude}),
-        .s00_axis_tstrb(s00_axis_tstrb),
+        .s00_axis_tstrb(4'b1111),
         //sync detector inputs
         // .hsync(check_evenodd),
         // .vsync(vsync_falling_edge_trigger),
