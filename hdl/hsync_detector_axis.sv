@@ -19,19 +19,38 @@ module hsync_detector_axis #(
 
     // Ports of Axis Master Bus Interface M00_AXIS
     // m00_axis_tdata = {hsync, colorburst, [15:0] colorburst_val}
-    input wire m00_axis_aclk, m00_axis_aresetn,
-    input wire m00_axis_tready,
-    output logic m00_axis_tvalid, m00_axis_tlast,
-    output logic [C_M00_AXIS_TDATA_WIDTH-1:0] m00_axis_tdata,
-    output logic [(C_M00_AXIS_TDATA_WIDTH/8)-1:0] m00_axis_tstrb,
+    // input wire m00_axis_aclk, m00_axis_aresetn,
+    // input wire m00_axis_tready,
+    // output logic m00_axis_tvalid, m00_axis_tlast,
+    // output logic [C_M00_AXIS_TDATA_WIDTH-1:0] m00_axis_tdata,
+    // output logic [(C_M00_AXIS_TDATA_WIDTH/8)-1:0] m00_axis_tstrb,
 
     // pulses at falling edge of hsync and cb
     output logic hsync_pulse,
-    output logic cb_pulse
+    output logic cb_pulse,
+    output logic [15:0] colorburst_val,
+
+    // hsync_thresholds
+    input wire [7:0] lower_ls,
+    input wire [7:0] upper_ls,
+    input wire [7:0] lower_hs,
+    input wire [7:0] upper_hs,
+    input wire [7:0] lower_vd,
+    input wire [7:0] upper_vd,
+    input wire [7:0] lower_fp,
+    input wire [7:0] upper_fp,
+    input wire [7:0] lower_st,
+    input wire [7:0] upper_st,
+    input wire [7:0] lower_bp,
+    input wire [7:0] upper_bp,
+    input wire [7:0] lower_eq,
+    input wire [7:0] upper_eq
+    
+    
 );
 
-assign s00_axis_tready = m00_axis_tready; // input ready: simple back pressure propogation
-
+// assign s00_axis_tready = m00_axis_tready; // input ready: simple back pressure propogation
+assign s00_axis_tready = 1;
 enum {WAIT, LOW_SYNC, HIGH_SYNC, VIDEO, FRONT_PORCH, SYNC_TIP, BACK_PORCH} state;
 
 localparam LOWER_LS = 128;
@@ -94,7 +113,7 @@ assign magnitude = s00_axis_tdata;
 logic hsync;
 logic colorburst;
 // logic [15:0] synctip_val;
-logic [15:0] colorburst_val;
+// logic [15:0] colorburst_val;
 
 assign hsync = m00_axis_tdata[17];
 assign colorburst = m00_axis_tdata[16];
@@ -102,14 +121,23 @@ assign colorburst = m00_axis_tdata[16];
 assign colorburst_val = m00_axis_tdata[15:0];
 
 // making sure transition from one state to another is valid by magnitude value
+// always_comb begin
+//     in_ls_range = (magnitude > LOWER_LS && magnitude < UPPER_LS);
+//     in_hs_range = (magnitude > LOWER_HS && magnitude < UPPER_HS);
+//     in_fp_range = (magnitude > LOWER_FP && magnitude < UPPER_FP);
+//     in_st_range = (magnitude > LOWER_ST && magnitude < UPPER_ST);
+//     in_bp_range = (magnitude > LOWER_BP && magnitude < UPPER_BP);
+//     in_vd_range = (magnitude > LOWER_VD && magnitude < UPPER_VD);
+//     in_eq_range = (magnitude > LOWER_EQ && magnitude < UPPER_EQ);
+// end
 always_comb begin
-    in_ls_range = (magnitude > LOWER_LS && magnitude < UPPER_LS);
-    in_hs_range = (magnitude > LOWER_HS && magnitude < UPPER_HS);
-    in_fp_range = (magnitude > LOWER_FP && magnitude < UPPER_FP);
-    in_st_range = (magnitude > LOWER_ST && magnitude < UPPER_ST);
-    in_bp_range = (magnitude > LOWER_BP && magnitude < UPPER_BP);
-    in_vd_range = (magnitude > LOWER_VD && magnitude < UPPER_VD);
-    in_eq_range = (magnitude > LOWER_EQ && magnitude < UPPER_EQ);
+    in_ls_range = (magnitude > lower_ls && magnitude < upper_ls);
+    in_hs_range = (magnitude > lower_hs && magnitude < upper_hs);
+    in_fp_range = (magnitude > lower_fp && magnitude < upper_fp);
+    in_st_range = (magnitude > lower_st && magnitude < upper_st);
+    in_bp_range = (magnitude > lower_bp && magnitude < upper_bp);
+    in_vd_range = (magnitude > lower_vd && magnitude < upper_vd);
+    in_eq_range = (magnitude > lower_eq && magnitude < upper_eq);
 end
 
 // making sure transition from one state to another is valid by sample count
@@ -194,7 +222,8 @@ always_ff @(posedge s00_axis_aclk) begin
                     if (in_hs_range && in_lsc_range) begin
                         state <= HIGH_SYNC;
                     // GO BACK: if we've been in the LOW_SYNC or EQUILIZER region for too long
-                    end else if (ls_counter > LS_SAMPLES_U || eq_counter > 8) begin
+                    // end else if (ls_counter > LS_SAMPLES_U || eq_counter > 8) begin
+                    end else if (ls_counter > upper_ls || eq_counter > 8) begin
                         state <= WAIT;
                     end
                 end
@@ -204,7 +233,8 @@ always_ff @(posedge s00_axis_aclk) begin
                         state <= LOW_SYNC;
                         hsync_pulse <= 1;
                     // GO BACK: we've been in HIGH_SYNC region for too long or exited both potential regions
-                    end else if (hs_counter > HS_SAMPLES_U) begin
+                    // end else if (hs_counter > HS_SAMPLES_U) begin
+                    end else if (hs_counter > upper_hs) begin
                         state <= WAIT;
                         hsync_pulse <= 0;
                     end
@@ -218,7 +248,8 @@ always_ff @(posedge s00_axis_aclk) begin
                     if (in_st_range) begin
                         state <= SYNC_TIP;
                     // GO BACK: we've been in FP for too long, or not in either potential section
-                    end else if (fp_counter > FP_SAMPLES_U) begin
+                    // end else if (fp_counter > FP_SAMPLES_U) begin
+                    end else if (fp_counter > upper_fp) begin
                         state <= WAIT;
                     end
                 end
@@ -227,7 +258,8 @@ always_ff @(posedge s00_axis_aclk) begin
                         state <= BACK_PORCH;
                         hsync_pulse <= 1;
                     // GO BACK: we've been in ST for too long, or not in either potential section
-                    end else if (st_counter > ST_SAMPLES_U) begin
+                    // end else if (st_counter > ST_SAMPLES_U) begin
+                    end else if (st_counter > upper_st) begin
                         state <= WAIT;
                     end
                 end
@@ -247,38 +279,85 @@ end
 
 // OUTPUT DATA
 // m00_axis_tdata = {hsync, colorburst, [14:0] synctip_val, [14:0] colorburst_val}
+// always_comb begin
+//     if (!s00_axis_aresetn) begin
+//         m00_axis_tdata = 0;
+//     end else begin
+
+//         case (state)
+//             WAIT: m00_axis_tdata = 0;
+//             LOW_SYNC: m00_axis_tdata = 0;
+//             HIGH_SYNC: m00_axis_tdata = {1'b1, 1'b0, 16'b0};
+//             VIDEO: m00_axis_tdata = 0;
+//             FRONT_PORCH: m00_axis_tdata = 0;
+//             SYNC_TIP: m00_axis_tdata = {1'b1, 1'b0, 16'b0};
+//             BACK_PORCH: m00_axis_tdata = {1'b0, 1'b1, magnitude};
+//         endcase
+//     end
+// end
+
 always_comb begin
     if (!s00_axis_aresetn) begin
-        m00_axis_tdata = 0;
+        hsync = 0;
+        colorburst = 0;
+        colorburst_val = 0;
     end else begin
 
         case (state)
-            WAIT: m00_axis_tdata = 0;
-            LOW_SYNC: m00_axis_tdata = 0;
-            HIGH_SYNC: m00_axis_tdata = {1'b1, 1'b0, 16'b0};
-            VIDEO: m00_axis_tdata = 0;
-            FRONT_PORCH: m00_axis_tdata = 0;
-            SYNC_TIP: m00_axis_tdata = {1'b1, 1'b0, 16'b0};
-            BACK_PORCH: m00_axis_tdata = {1'b0, 1'b1, magnitude};
+            WAIT: begin
+                hsync = 0;
+                colorburst = 0;
+                colorburst_val = 0;
+            end
+            LOW_SYNC: begin
+                hsync = 0;
+                colorburst = 0;
+                colorburst_val = 0;
+            end
+            HIGH_SYNC: begin
+                hsync = 1;
+                colorburst = 0;
+                colorburst_val = 0;
+            end
+            VIDEO: begin
+                hsync = 0;
+                colorburst = 0;
+                colorburst_val = 0;
+            end
+            FRONT_PORCH:  begin
+                hsync = 0;
+                colorburst = 0;
+                colorburst_val = 0;
+            end
+            SYNC_TIP: begin
+                hsync = 1;
+                colorburst = 0;
+                colorburst_val = 0;
+            end
+            BACK_PORCH:  begin
+                hsync = 0;
+                colorburst = 1;
+                colorburst_val = magnitude;
+            end
         endcase
     end
 end
 
 // AXIS HANDSHAKE STUFF
-always_ff @(posedge s00_axis_aclk) begin
-    if (!s00_axis_aresetn) begin
-        m00_axis_tstrb = 0;
-        m00_axis_tvalid = 0;
-        m00_axis_tlast = 0;
-    end else begin
-        if (s00_axis_tvalid && s00_axis_tready) begin // input handshake
-            m00_axis_tvalid <= 1;
-            m00_axis_tlast <= s00_axis_tlast;
-            m00_axis_tstrb <= s00_axis_tstrb;
-        end else if (m00_axis_tvalid && m00_axis_tready) begin // output handshake (data has been transferred)
-            m00_axis_tvalid <= 0;
-        end
-    end
-end
+// always_ff @(posedge s00_axis_aclk) begin
+//     if (!s00_axis_aresetn) begin
+//         m00_axis_tstrb = 0;
+//         m00_axis_tvalid = 0;
+//         m00_axis_tlast = 0;
+//     end else begin
+//         if (s00_axis_tvalid && s00_axis_tready) begin // input handshake
+//             m00_axis_tvalid <= 1;
+//             m00_axis_tlast <= s00_axis_tlast;
+//             m00_axis_tstrb <= s00_axis_tstrb;
+//         end else if (m00_axis_tvalid && m00_axis_tready) begin // output handshake (data has been transferred)
+//             m00_axis_tvalid <= 0;
+//         end
+//     end
+// end
 
 endmodule
