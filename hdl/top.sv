@@ -107,7 +107,8 @@ module top #
     logic hsync_detector_trigger;
     logic colorburst_detector_trigger;
     logic [15:0] colorburst_black_ref; //black level from hsync
-    hsync_detector #(.MAG_WIDTH(16)) hsync_detector_top (
+    logic in_hsync;
+    hsync_detector_axis #(.MAG_WIDTH(16)) hsync_detector_top (
         .s00_axis_aclk   (s00_axis_aclk),
         .s00_axis_aresetn(s00_axis_aresetn),
         .s00_axis_tlast  (cordic_tlast),
@@ -119,6 +120,7 @@ module top #
         .hsync_pulse(hsync_detector_trigger),
         .cb_pulse(colorburst_detector_trigger),
         .colorburst_val(colorburst_black_ref),
+        .hsync(in_hsync),
         // hsync thresholds coming from AXI-Lite regs
         .lower_ls (hsync_threshold_lower_ls),
         .upper_ls (hsync_threshold_upper_ls),
@@ -173,7 +175,7 @@ module top #
             if (s00_axis_tvalid && s00_axis_tready) begin
                 case (state)
                     IDLE: begin
-                        state <= (vsync_detector_trigger) ? FRAME_SYNC;
+                        statfe <= (vsync_detector_trigger) ? FRAME_SYNC;
                         hsync_counter <= 0;
                     end
                     FRAME_SYNC: begin
@@ -207,6 +209,7 @@ module top #
         //sync detector inputs
         // .hsync(check_evenodd),
         // .vsync(vsync_falling_edge_trigger),
+        .in_hsync(in_hsync),
         .state(state),
         .start_decode_trigger(colorburst_detector_trigger),
         .odd_even_interlace_parity(odd_even_interlace_parity),

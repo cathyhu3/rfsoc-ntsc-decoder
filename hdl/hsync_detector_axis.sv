@@ -29,6 +29,7 @@ module hsync_detector_axis #(
     output logic hsync_pulse,
     output logic cb_pulse,
     output logic [15:0] colorburst_val,
+    output logic hsync, // high for the whole hsync
 
     // hsync_thresholds
     input wire [7:0] lower_ls,
@@ -110,15 +111,15 @@ assign magnitude = s00_axis_tdata;
 /// SIGNALS FOR SIMULATION ///
 // m00_axis_tdata = {hsync, colorburst, [15:0] colorburst_val}
 
-logic hsync;
+// logic hsync;
 logic colorburst;
 // logic [15:0] synctip_val;
 // logic [15:0] colorburst_val;
 
-assign hsync = m00_axis_tdata[17];
-assign colorburst = m00_axis_tdata[16];
+// assign hsync = m00_axis_tdata[17];
+// assign colorburst = m00_axis_tdata[16];
 // assign synctip_val = m00_axis_tdata[29:15];
-assign colorburst_val = m00_axis_tdata[15:0];
+// assign colorburst_val = m00_axis_tdata[15:0];
 
 // making sure transition from one state to another is valid by magnitude value
 // always_comb begin
