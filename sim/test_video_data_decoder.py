@@ -71,10 +71,8 @@ async def test_a(dut):
     dut.black_level.value = 150
     dut.white_level.value = 40
     
-    # Set tlast (though module doesn't use it)
+    # Set tlast 
     dut.s00_axis_tlast.value = 0
-    
-    # Initialize inputs to avoid 'z' values
     dut.s00_axis_tdata.value = 0
     dut.s00_axis_tvalid.value = 0
     
@@ -97,20 +95,17 @@ async def test_a(dut):
         # bits [31:20] = 0, [19] = colorburst_trigger, [18] = evenodd, [17:16] = state, [15:0] = magnitude
         input_data_word = (trigger_val << 19) | (evenodd << 18) | (state << 16) | (mag & 0xFFFF)
         
-        # Set data before rising edge
+        # Set data
         await FallingEdge(dut.s00_axis_aclk)
         dut.s00_axis_tdata.value = input_data_word
         dut.s00_axis_tvalid.value = 1
         
-        # Wait for one full clock cycle (data is held during this time)
         await RisingEdge(dut.s00_axis_aclk)
         await FallingEdge(dut.s00_axis_aclk)
         
         # Deassert valid, but keep data (or set to 0)
         dut.s00_axis_tvalid.value = 0
-        # Keep data value to avoid 'z' - will be overwritten on next iteration
-
-    # After loop, keep signals driven (set to 0 to avoid 'z')
+    
     await FallingEdge(dut.s00_axis_aclk)
     dut.s00_axis_tdata.value = 0
     dut.s00_axis_tvalid.value = 0
