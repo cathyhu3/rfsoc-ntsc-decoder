@@ -47,7 +47,6 @@ async def reset(clk,rst, cycles_held = 3,polarity=0):
 imag_array_pattern = np.load(proj_path / "sim" / "imag_array_pattern.npy")[14000:28000]
 real_array_pattern = np.load(proj_path / "sim" / "real_array_pattern.npy")[14000:28000]
 t_array_pattern = np.load(proj_path / "sim" / "t_array_pattern.npy")[14000:28000]
-colorburst_triggers = np.load(proj_path/ "data" / "colorburst_triggers.npy")
 # imag_array_pattern = np.load(proj_path / "sim" / "imag_array_pattern.npy")[20000:20500]
 # real_array_pattern = np.load(proj_path / "sim" / "real_array_pattern.npy")[20000:20500]
 # t_array_pattern = np.load(proj_path / "sim" / "t_array_pattern.npy")[20000:20500]
@@ -56,7 +55,11 @@ colorburst_triggers = np.load(proj_path/ "data" / "colorburst_triggers.npy")
 # t_array_pattern = np.load(proj_path / "sim" / "t_array_black.npy")[20000:28000]
 
 mag_in = np.round(np.abs(real_array_pattern + 1j*imag_array_pattern)).astype(int).tolist()
-triggers = colorburst_triggers.astype(int).tolist()
+triggers = [0]*len(mag_in)
+triggers[500] = 1
+triggers[1000] = 1
+triggers[1500] = 1
+triggers[2000] = 1
 
 @cocotb.test()
 async def test_a(dut):
@@ -77,33 +80,32 @@ async def test_a(dut):
     dut.s00_axis_tvalid.value = 0
     
     # Wait a few cycles after reset
-    await ClockCycles(dut.s00_axis_aclk, 2)
+    await ClockCycles(dut.s00_axis_aclk, 5)
     
     dut._log.info(f"Starting test")
 
     # Feed data into the module
-    # Input format: {11'b0, colorburst_trigger[19], evenodd[18], state[17:16], magnitude[15:0]}
+    # Input format: {11'b0, colorburst_trigger[20], evenodd[19], state[18:16], magnitude[15:0]}
     for i, mag in enumerate(mag_in):
         # Get trigger value
-        trigger_val = triggers[i] if i < len(triggers) else 0
+        trigger_val = triggers[i]
         
         # Generate random values for evenodd and state
         evenodd = 1
         state = 3
         
         # Construct the 32-bit input data
-        # bits [31:20] = 0, [19] = colorburst_trigger, [18] = evenodd, [17:16] = state, [15:0] = magnitude
-        input_data_word = (trigger_val << 19) | (evenodd << 18) | (state << 16) | (mag & 0xFFFF)
+        # bits [31:21] = 0, [20] = colorburst_trigger, [19] = evenodd, [18:16] = state, [15:0] = magnitude
+        input_data_word = (trigger_val << 20) | (evenodd << 19) | (state << 16) | (mag & 0xFFFF)
         
-        # Set data
+        # Set data before clock edge
         await FallingEdge(dut.s00_axis_aclk)
         dut.s00_axis_tdata.value = input_data_word
         dut.s00_axis_tvalid.value = 1
         
+        # Wait for one clock cycle - module samples on rising edge
         await RisingEdge(dut.s00_axis_aclk)
         await FallingEdge(dut.s00_axis_aclk)
-        
-        # Deassert valid, but keep data (or set to 0)
         dut.s00_axis_tvalid.value = 0
     
     await FallingEdge(dut.s00_axis_aclk)
