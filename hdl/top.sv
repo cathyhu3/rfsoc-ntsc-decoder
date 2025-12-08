@@ -59,8 +59,7 @@ module top #
 
     //odd/even threshold
     logic [7:0] oddeven_th_threshold;
-
-
+    
     // logic [7:0] hsync_threshold_upper_fp;
     // logic [7:0] hsync_threshold_lower_st;
     // logic [7:0] hsync_threshold_upper_st;
@@ -71,26 +70,26 @@ module top #
 
     always_comb begin
         // VSYNC THRESHOLDS
-        vsync_lb_threshold = MMIO_thresholds[7:0];       // ~
-        vsync_ub_threshold = MMIO_thresholds[15:8];      // ~
-        vsync_samples_lb_threshold = MMIO_thresholds[23:16];     // ~
+        vsync_lb_threshold = MMIO_thresholds[7:0];       // ~172
+        vsync_ub_threshold = MMIO_thresholds[15:8];      // ~185
+        vsync_samples_lb_threshold = MMIO_thresholds[23:16];     // ~160
 
         // COLOR LEVEL THRESHOLDS
         black_level_default = MMIO_thresholds[31:24];     // ~150
         white_level_default = MMIO_thresholds[39:32];     // ~40
 
         // HSYNC THRESHOLDS
-        hsync_lb_threshold = MMIO_thresholds[47:40];     // default ~
-        hsync_ub_threshold = MMIO_thresholds[55:48];     // default ~
-        hsync_samples_lb_threshold = MMIO_thresholds[63:56];     // default ~
+        hsync_lb_threshold = MMIO_thresholds[47:40];     // default ~184
+        hsync_ub_threshold = MMIO_thresholds[55:48];     // default ~199
+        hsync_samples_lb_threshold = MMIO_thresholds[63:56];     // default ~38
 
         //colorburst threshold
-        cb_lb_threshold = MMIO_thresholds[71:64];     // default ~
-        cb_ub_threshold = MMIO_thresholds[79:72];     // default ~
-        cb_samples_ub_threshold = MMIO_thresholds[87:80];     // default ~
+        cb_lb_threshold = MMIO_thresholds[71:64];     // default ~130
+        cb_ub_threshold = MMIO_thresholds[79:72];     // default ~145
+        cb_samples_ub_threshold = MMIO_thresholds[87:80];     // default ~23
 
         //odd/even threshold
-        oddeven_th_threshold = MMIO_thresholds[95:88];     // default ~
+        oddeven_th_threshold = MMIO_thresholds[95:88];     // default ~85
 
         // hsync_threshold_upper_fp          = MMIO_thresholds[103:96];    // default ~138 (UPPER_FP)
         // hsync_threshold_lower_st          = MMIO_thresholds[111:104];   // default ~184 (LOWER_ST)
