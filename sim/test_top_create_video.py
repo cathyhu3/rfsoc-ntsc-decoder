@@ -84,10 +84,30 @@ def construct_frame(samples, max_lines=525):
     return frame
 
 def plot_frames(frames):
-    for vals in frames:
-        img = np.array(vals, dtype=np.uint8)   # convert 2-D list → 2-D array
-        frames.append(img)
-    imageio.mimsave("video.mp4", frames, fps=20)
+    
+    # for vals in frames:
+    #     img = np.array(vals, dtype=np.uint8)   # convert 2-D list → 2-D array
+    #     frames.append(img)
+    # imageio.mimsave("video.mp4", frames, fps=20)
+
+    # writer = imageio.get_writer(
+    #     "grayscale_mac.mp4",
+    #     fps=20,
+    #     codec="libx264",
+    #     pixelformat="yuv420p"
+    # )
+
+    # for f in frames:
+    #     writer.append_data(f)
+
+    # writer.close()
+
+    for i, frame in enumerate(frames):
+        plt.figure()
+        plt.imshow(frame, cmap="gray", vmin=0, vmax=255)
+        plt.title(f"Frame {i}")
+        plt.axis('off')
+        plt.show()
 
 def build_frame_from_samples(samples, max_lines=525):
     """
@@ -344,8 +364,8 @@ async def test_top(dut):
     dut.m00_axis_tready.value = 1
 
     # Load example ADC data (real & imag)
-    real_array = np.load(proj_path / "sim" / "real_array_pattern.npy")
-    imag_array = np.load(proj_path / "sim" / "imag_array_pattern.npy")
+    real_array = np.load(proj_path / "sim" / "real_array_pattern.npy")[:1000]
+    imag_array = np.load(proj_path / "sim" / "imag_array_pattern.npy")[:1000]
 
     real_data = real_array.astype(np.int16)
     imag_data = imag_array.astype(np.int16)
@@ -365,13 +385,6 @@ async def test_top(dut):
             await RisingEdge(dut.m00_axis_aclk)
             if dut.m00_axis_tvalid.value and dut.m00_axis_tready.value:
                 raw = int(dut.m00_axis_tdata.value)
-                # flags = (raw >> 9) & 0xF     # bits [12:9]
-                # luma  =  raw        & 0x1FF  # bits [8:0]
-                # print(
-                #     f"[m00] time={gst()} ps  "
-                #     f"flags[12:9]={flags:04b}  "
-                #     f"luma[8:0]={luma}"
-                # )
 
                 pixel = raw & 0xFF
                 state = (raw >> 8) & 7
@@ -384,7 +397,7 @@ async def test_top(dut):
                     oddeven = raw >> 11 & 1
                     trigger = raw >> 12 & 1
                     samples.append((trigger, oddeven, state, pixel))
-                construct_frame(samples)
+                frames.append(construct_frame(samples))
 
     cocotb.start_soon(watch_m00())
     # cocotb.start_soon(collect_frames())
@@ -404,7 +417,8 @@ async def test_top(dut):
     # plt.imshow(frame, cmap="gray", vmin=0, vmax=255)
     # plt.title("Captured frame")
     # plt.savefig("frame.png")
-    plot_frames(frames)
+    print("HIIIIIII")
+    # plot_frames(frames)
 
 
 
@@ -416,7 +430,7 @@ def adsb_runner():
     sys.path.append(str(proj_path / "sim" / "model"))
     sys.path.append(str(proj_path / "hdl" ))
     #sources = [proj_path / "hdl" / "vsync_detector.sv"]
-    sources = [proj_path / "hdl" / "cordic.sv", proj_path / "hdl" / "top.sv", proj_path / "hdl" / "video_data_decoder.sv", proj_path / "hdl" / "vsync_detector.sv", proj_path / "hdl" / "hsync_detector.sv"]
+    sources = [proj_path / "hdl" / "cordic.sv", proj_path / "hdl" / "top.sv", proj_path / "hdl" / "video_data_decoder.sv", proj_path / "hdl" / "sync_detector_axis.sv"]
     #sources = [proj_path / "hdl" / "axis_fir.sv", proj_path / "hdl" / "preamble_detector.sv", proj_path / "hdl" / "top.sv", proj_path / "hdl" / "adsb_decoder.sv", proj_path / "hdl" / "cordic.sv"]
     #sources = [proj_path / "hdl" / "j_math.sv"]
     build_test_args = ["-Wall"]

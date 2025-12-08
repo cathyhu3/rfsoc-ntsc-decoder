@@ -26,8 +26,19 @@ module top #
 		output logic [C_M00_AXIS_TDATA_WIDTH-1 : 0] m00_axis_tdata,
 		output logic [(C_M00_AXIS_TDATA_WIDTH/8)-1: 0] m00_axis_tstrb,
 
+        // SIM OUTPUTS
+        output logic [7:0] pixel,
+        output logic [2:0] state,
+        output logic oddeven,
+        output logic trigger,
+
         input wire [255:0] MMIO_thresholds //TODO 8*32-bit registers, 8bit (0->255) thresholds 
 	);
+
+    assign pixel = m00_axis_tdata[7:0];
+    assign state = m00_axis_tdata[10:8];
+    assign oddeven = m00_axis_tdata[11];
+    assign trigger = m00_axis_tdata[12];
 
     assign s00_axis_tready = m00_axis_tready;
 
@@ -68,7 +79,7 @@ module top #
     // logic [7:0] hsync_threshold_lower_eq;
     // logic [7:0] hsync_threshold_upper_eq;
 
-    always_comb begin
+    initial begin
         // VSYNC THRESHOLDS
         vsync_lb_threshold = MMIO_thresholds[7:0];       // ~172
         vsync_ub_threshold = MMIO_thresholds[15:8];      // ~185
@@ -140,7 +151,7 @@ module top #
         .m00_axis_tvalid(sync_tvalid),
         .m00_axis_tlast(sync_tlast),
         .m00_axis_tdata(sync_tdata),
-        .m00_axis_tstrb(4'b1111),
+        .m00_axis_tstrb(),
         //vsync thresholds
         .vsync_lb(vsync_lb_threshold),
         .vsync_ub(vsync_ub_threshold),
