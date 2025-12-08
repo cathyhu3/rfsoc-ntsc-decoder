@@ -1,6 +1,6 @@
 <testsuites name="results">
   <testsuite name="all" package="all">
-    <property name="random_seed" value="1765162939" />
-    <testcase name="test_a" classname="test_sync_detector_axis" file="/Users/cathyhu/fall2025/rfsoc-ntsc-decoder/sim/test_sync_detector_axis.py" lineno="83" time="182.84043526649475" sim_time_ns="3528630.000001" ratio_time="19298.958651339504" />
+    <property name="random_seed" value="1765218459" />
+    <testcase name="test_a" classname="test_sync_detector_axis" file="/Users/cathyhu/fall2025/rfsoc-ntsc-decoder/sim/test_sync_detector_axis.py" lineno="85" time="342.2078218460083" sim_time_ns="3528630.000001" ratio_time="10311.365710363174" />
   </testsuite>
 </testsuites>

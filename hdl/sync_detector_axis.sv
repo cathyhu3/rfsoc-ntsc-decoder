@@ -6,21 +6,21 @@ two types of hsync:
 
 module sync_detector_axis #(
     parameter integer C_S00_AXIS_TDATA_WIDTH = 16,
-    parameter integer C_M00_AXIS_TDATA_WIDTH = 32,
-    // VSYNC
-    parameter integer VSYNC_LB               = 172,
-    parameter integer VSYNC_UB               = 185,
-    parameter integer VSYNC_SAMPLES_LB       = 160,
+    parameter integer C_M00_AXIS_TDATA_WIDTH = 32
+    // // VSYNC
+    // parameter integer VSYNC_LB               = 172,
+    // parameter integer VSYNC_UB               = 185,
+    // parameter integer VSYNC_SAMPLES_LB       = 160,
 
-    // HSYNC
-    parameter integer HSYNC_LB               = 184,
-    parameter integer HSYNC_UB               = 199,
-    parameter integer HSYNC_SAMPLES_LB       = 38,
+    // // HSYNC
+    // parameter integer HSYNC_LB               = 184,
+    // parameter integer HSYNC_UB               = 199,
+    // parameter integer HSYNC_SAMPLES_LB       = 38,
 
-    // COLORBURST
-    parameter integer CB_LB                  = 130,
-    parameter integer CB_UB                  = 145,
-    parameter integer CB_SAMPLES_LB          = 23
+    // // COLORBURST
+    // parameter integer CB_LB                  = 130,
+    // parameter integer CB_UB                  = 145,
+    // parameter integer CB_SAMPLES_LB          = 23
 
 )
 (
@@ -43,27 +43,34 @@ module sync_detector_axis #(
     output logic [(C_M00_AXIS_TDATA_WIDTH/8)-1:0] m00_axis_tstrb,
 
     // VSYNC THRESHOLDS
-    input  wire [15:0] vsync_lb,
-    input  wire [15:0] vsync_ub,
-    input  wire [15:0] vsync_samples_lb,
+    input  wire [7:0] vsync_lb,
+    input  wire [7:0] vsync_ub,
+    input  wire [7:0] vsync_samples_lb,
 
     // HSYNC THRESHOLDS
-    input  wire [15:0] hsync_lb,
-    input  wire [15:0] hsync_ub,
-    input  wire [15:0] hsync_samples_lb,
+    input  wire [7:0] hsync_lb,
+    input  wire [7:0] hsync_ub,
+    input  wire [7:0] hsync_samples_lb,
 
     // COLORBURST THRESHOLDS
-    input wire [15:0] cb_lb,
+    input wire [7:0] cb_lb,
+    input wire [7:0] cb_ub,
+    input wire [7:0] cb_samples_ub,
 
+    // ODDEVEN THRESHOLD,
+    input wire [7:0] oddeven_th
 
-    // simulation signals
-    output logic colorburst_pulse
-    // output logic vsync_pulse,
-    // output logic hsync_pulse,
-    // output logic coloburst_pulse,
-    // output logic [15:0] magnitude
+    // // simulation signals
+    // output logic colorburst_pulse,
+    // output logic odd_even
+    // // output logic vsync_pulse,
+    // // output logic hsync_pulse,
+    // // output logic coloburst_pulse,
+    // // output logic [15:0] magnitude
 );
-assign colorburst_pulse = cb_trigger;
+// sim stuff
+// assign colorburst_pulse = cb_trigger;
+// assign odd_even = odd_even_interlace_parity;
 
 
 // HARD-CODED THRESHOLDS FOR TESTING ///////////////////////////////////////////////////////
@@ -79,6 +86,8 @@ localparam int HSYNC_SAMPLES_LB         = 38;
 localparam int CB_LB                    = 130;
 localparam int CB_UB                    = 145;
 localparam int CB_SAMPLES_LB            = 23;
+// ODDEVEN
+localparam int ODDEVEN_TH                = 85;
 
 // VSYNC
 logic in_vsync_range;
@@ -102,13 +111,23 @@ assign magnitude = s00_axis_tdata;
 // VSYNC AND HSYNC TRIGGERS ///////////////////////////////////////////////////////
 
 always_comb begin
-    in_vsync_range = (magnitude > VSYNC_LB && magnitude < VSYNC_UB);
-    in_hsync_range = (magnitude > HSYNC_LB && magnitude < HSYNC_UB);
-    in_cb_range = (magnitude > CB_LB && magnitude < CB_UB);
+    in_vsync_range = (magnitude > vsync_lb && magnitude < vsync_ub);
+    in_hsync_range = (magnitude > hsync_lb && magnitude < hsync_ub);
+    in_cb_range = (magnitude > cb_lb && magnitude < cb_ub);
 end
 
-assign vsync_trigger = (vsync_sample_counter > VSYNC_SAMPLES_LB); // not a single cycle high (doesn't have to be)
-assign hsync_trigger = (hsync_sample_counter > HSYNC_SAMPLES_LB); // single cycle high
+assign vsync_trigger = (vsync_sample_counter > vsync_samples_lb); // not a single cycle high (doesn't have to be)
+assign hsync_trigger = (hsync_sample_counter > hsync_samples_lb); // single cycle high
+
+// for testing
+// always_comb begin
+//     in_vsync_range = (magnitude > VSYNC_LB && magnitude < VSYNC_UB);
+//     in_hsync_range = (magnitude > HSYNC_LB && magnitude < HSYNC_UB);
+//     in_cb_range = (magnitude > CB_LB && magnitude < CB_UB);
+// end
+
+// assign vsync_trigger = (vsync_sample_counter > VSYNC_SAMPLES_LB); // not a single cycle high (doesn't have to be)
+// assign hsync_trigger = (hsync_sample_counter > HSYNC_SAMPLES_LB); // single cycle high
 
 enum {RESET, GO} hsync_counter_state;
 
@@ -153,7 +172,7 @@ logic odd_even_interlace_parity;
 logic check_evenodd;
 logic [3:0] hsync_counter;
 localparam HSYNC_COUNT = 11;
-assign check_evenodd = (hsync_counter == HSYNC_COUNT-1);
+// assign check_evenodd = (hsync_counter == HSYNC_COUNT-1);
 
 always_ff @(s00_axis_aclk) begin
     if (!s00_axis_aresetn) begin
@@ -173,7 +192,8 @@ always_ff @(s00_axis_aclk) begin
                     odd_even_interlace_parity <= 1; // first assume even
                 end
                 EVENODD: begin // between the 11th and 12th hsync line
-                    if (magnitude < 71) begin
+                    // if (magnitude < ODDEVEN_TH) begin
+                    if (magnitude < oddeven_th) begin
                         odd_even_interlace_parity <= 0; // if it ever goes below 71 threshold it's odd
                     end
                     
@@ -182,7 +202,8 @@ always_ff @(s00_axis_aclk) begin
                     end
                 end
                 COLORBURST: begin
-                    if (cb_sample_counter > CB_SAMPLES_LB) begin
+                    // if (cb_sample_counter > CB_SAMPLES_LB) begin
+                    if (cb_sample_counter > cb_samples_ub) begin
                         cb_sample_counter <= 0;
                         state <= CB_TRIGGER;
                     end else if (in_cb_range) begin
