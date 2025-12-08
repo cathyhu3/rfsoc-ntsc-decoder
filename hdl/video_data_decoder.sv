@@ -26,8 +26,8 @@ module video_data_decoder #
 		output logic [(C_M00_AXIS_TDATA_WIDTH/8)-1: 0] m00_axis_tstrb,
 
         // threshold inputs - Programmable black / white levels (in same units as magnitude)
-        // e.g. black_level ≈ 32'd150, white_level ≈ 32'd30
-        input  wire [15:0]  black_level,
+        // 150 for black, 40 for white
+        input  wire [7:0]  black_level,
         input  wire [7:0]  white_level
         
 	);
@@ -51,12 +51,13 @@ module video_data_decoder #
     logic [1:0] state_val;
     logic [7:0] y;
 
-    assign s00_axis_tready = 1'b1
-    assign m00_axis_tstrb  = { (C_M00_AXIS_TDATA_WIDTH/8) {1'b1} }; // One byte per beat on output todo
+    assign s00_axis_tready = 1'b1;
+    assign m00_axis_tstrb  = { (C_M00_AXIS_TDATA_WIDTH/8) {1'b1} }; // todo
     assign m00_axis_tlast = 1'b0;
-    assign m00_axis_tdata = {20'b0, trigger, oddeven, state_val, y}
+    assign m00_axis_tdata = {20'b0, trigger, oddeven, state_val, y};
 
-    typedef enum logic {IDLE, DECODE} fsm;
+    typedef enum logic {IDLE, DECODE} fsm_state_t;
+    fsm_state_t fsm;
 
     always_ff @(posedge s00_axis_aclk) begin
         
@@ -68,12 +69,15 @@ module video_data_decoder #
             oddeven <= 0;
             state_val <= 0;
             y <= 0;
+            fsm <= IDLE;
 
         end else begin
 
+            m00_axis_tvalid <= 1;
+
             case (fsm)
 
-                IDLE:
+                IDLE: begin
                     oddeven <= odd_even_interlace_parity;
                     state_val <= state;
 
@@ -89,8 +93,9 @@ module video_data_decoder #
                         trigger <= 0;
                         y <= 255; // set to black
                     end
+                end
 
-                DECODE:
+                DECODE: begin
                     oddeven <= odd_even_interlace_parity;
                     state_val <= state;
                     trigger <= 0;
@@ -104,9 +109,13 @@ module video_data_decoder #
                     else begin
                         line_sample_count <= 0;
                         fsm <= IDLE;
+                        y <= 255; // set to black
                     end
+                end
 
-                default: fsm <= IDLE;
+                default: begin
+                    fsm <= IDLE;
+                end
             endcase
         end
     end
