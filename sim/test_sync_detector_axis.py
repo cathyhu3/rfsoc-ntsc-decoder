@@ -45,16 +45,16 @@ async def reset(clk,rst, cycles_held = 3,polarity=0):
 
 # mag_in = np.round(np.abs(real_array_white + 1j*imag_array_white)).astype(int).tolist()
 
-### PATTERN ###
-# imag_array_pattern = np.load(proj_path / "sim" / "imag_array_pattern.npy")[26000:28000]
-# real_array_pattern = np.load(proj_path / "sim" / "real_array_pattern.npy")[26000:28000]
-# t_array_pattern = np.load(proj_path / "sim" / "t_array_pattern.npy")[26000:28000]
+## PATTERN ###
+imag_array_pattern = np.load(proj_path / "sim" / "imag_array_pattern.npy")[14000:28000]
+real_array_pattern = np.load(proj_path / "sim" / "real_array_pattern.npy")[14000:28000]
+t_array_pattern = np.load(proj_path / "sim" / "t_array_pattern.npy")[14000:28000]
 # imag_array_pattern = np.load(proj_path / "sim" / "imag_array_pattern.npy")[20000:20500]
 # real_array_pattern = np.load(proj_path / "sim" / "real_array_pattern.npy")[20000:20500]
 # t_array_pattern = np.load(proj_path / "sim" / "t_array_pattern.npy")[20000:20500]
-imag_array_pattern = np.load(proj_path / "sim" / "imag_array_black.npy")[20000:28000]
-real_array_pattern = np.load(proj_path / "sim" / "real_array_black.npy")[20000:28000]
-t_array_pattern = np.load(proj_path / "sim" / "t_array_black.npy")[20000:28000]
+# imag_array_pattern = np.load(proj_path / "sim" / "imag_array_black.npy")[20000:28000]
+# real_array_pattern = np.load(proj_path / "sim" / "real_array_black.npy")[20000:28000]
+# t_array_pattern = np.load(proj_path / "sim" / "t_array_black.npy")[20000:28000]
 
 mag_in = np.round(np.abs(real_array_pattern + 1j*imag_array_pattern)).astype(int).tolist()
 
@@ -64,14 +64,15 @@ async def collect_vals(dut, hsyncs, colorbursts, h_pulses, cb_pulses):
     # colorbursts = []
     # h_pulses = []
     # cb_pulses = []
-    while len(hsyncs) < len(mag_in):
+    while len(cb_pulses) < len(mag_in):
         await RisingEdge(dut.s00_axis_aclk)
         await ReadOnly()
         if (dut.m00_axis_tvalid.value):
             # hsyncs.append(dut.m00_axis_tdata.value >> 17)
             # colorbursts.append((dut.m00_axis_tdata.value >> 16) & 1)
-            h_pulses.append(dut.hsync_pulse.value)
-            cb_pulses.append(dut.cb_pulse.value)
+            # h_pulses.append(dut.hsync_pulse.value)
+            cb_pulses.append(dut.colorburst_pulse.value)
+            # cb_pulses.append((dut.m00_axis_tdata.value >> 19) & 1)
         # hsyncs.append(dut.hsync_pulse)
         # colorbursts.append(dut.cb_pulse)
         # if (dut.valid_out.value):
@@ -94,27 +95,27 @@ async def test_a(dut):
     cocotb.start_soon(collect_vals(dut, hsyncs, colorbursts, h_pulses, cb_pulses))
     await reset(dut.s00_axis_aclk, dut.s00_axis_aresetn,2,0)
     
-    await FallingEdge(dut.s00_axis_aclk)
-    dut.lower_ls = 128
-    dut.upper_ls = 136
+    # await FallingEdge(dut.s00_axis_aclk)
+    # dut.lower_ls = 128
+    # dut.upper_ls = 136
 
-    dut.lower_hs = 184
-    dut.upper_hs = 190
+    # dut.lower_hs = 184
+    # dut.upper_hs = 190
 
-    dut.lower_vd = 75
-    dut.upper_vd = 100
+    # dut.lower_vd = 75
+    # dut.upper_vd = 100
 
-    dut.lower_fp = 133
-    dut.upper_fp = 138
+    # dut.lower_fp = 133
+    # dut.upper_fp = 138
 
-    dut.lower_st = 184
-    dut.upper_st = 192
+    # dut.lower_st = 184
+    # dut.upper_st = 192
 
-    dut.lower_bp = 134
-    dut.upper_bp = 142
+    # dut.lower_bp = 134
+    # dut.upper_bp = 142
 
-    dut.lower_eq = 135
-    dut.upper_eq = 142
+    # dut.lower_eq = 135
+    # dut.upper_eq = 142
 
 
     for mag in mag_in:
@@ -134,12 +135,12 @@ async def test_a(dut):
     # for i, b in enumerate(colorbursts):
     #     if b == 1:
     #         plt.axvline(x=20000+i, linestyle='-', linewidth=2, color="blue", alpha=0.1)
-    for i, b in enumerate(h_pulses):
-        if b == 1:
-            plt.axvline(x=20000+i, linestyle='-', linewidth=2, color="green", alpha=0.9)
+    # for i, b in enumerate(h_pulses):
+    #     if b == 1:
+    #         plt.axvline(x=20000+i, linestyle='-', linewidth=2, color="green", alpha=0.9)
     for i, b in enumerate(cb_pulses):
         if b == 1:
-            plt.axvline(x=20000+i, linestyle='-', linewidth=2, color="yellow", alpha=0.9)
+            plt.axvline(x=14000+i, linestyle='-', linewidth=2, color="yellow", alpha=0.9)
     plt.show()
     # assert [0x8d780976990c83ad98041dc0fbd7, 0x8d780976990c83ad98041dc0fbd7] == received_squitters
 
@@ -150,7 +151,7 @@ def hsync_runner(module_name):
     #sim = os.getenv("SIM", "vivado")
     sys.path.append(str(proj_path / "sim" / "model"))
     sys.path.append(str(proj_path / "hdl" ))
-    sources = [proj_path / "hdl" / "hsync_detector_axis.sv"]
+    sources = [proj_path / "hdl" / "sync_detector_axis.sv"]
     #sources = [proj_path / "hdl" / "j_math.sv"]
     build_test_args = ["-Wall"]
     parameters = {} #!!!
@@ -174,4 +175,4 @@ def hsync_runner(module_name):
         waves=True
     )
 if __name__ == "__main__":
-    hsync_runner("hsync_detector_axis.sv")
+    hsync_runner("sync_detector_axis.sv")

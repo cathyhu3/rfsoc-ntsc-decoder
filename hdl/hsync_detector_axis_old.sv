@@ -4,7 +4,7 @@ two types of hsync:
 2. singular hsync period before each new line (front porch, sync tip, back porch)
 */
 
-module hsync_detector_axis #(
+module hsync_detector_axis_old #(
     parameter integer C_S00_AXIS_TDATA_WIDTH = 16,
     parameter integer C_M00_AXIS_TDATA_WIDTH = 32
 )
@@ -20,7 +20,8 @@ module hsync_detector_axis #(
     // Ports of Axis Master Bus Interface M00_AXIS
     // m00_axis_tdata = {hsync, colorburst, [15:0] colorburst_val}
     // input wire m00_axis_aclk, m00_axis_aresetn,
-    // input wire m00_axis_tready,
+    input wire m00_axis_tready,
+    output logic m00_axis_tvalid,
     // output logic m00_axis_tvalid, m00_axis_tlast,
     // output logic [C_M00_AXIS_TDATA_WIDTH-1:0] m00_axis_tdata,
     // output logic [(C_M00_AXIS_TDATA_WIDTH/8)-1:0] m00_axis_tstrb,
@@ -45,9 +46,7 @@ module hsync_detector_axis #(
     input wire [7:0] lower_bp,
     input wire [7:0] upper_bp,
     input wire [7:0] lower_eq,
-    input wire [7:0] upper_eq
-    
-    
+    input wire [7:0] upper_eq 
 );
 
 // assign s00_axis_tready = m00_axis_tready; // input ready: simple back pressure propogation
@@ -345,20 +344,20 @@ always_comb begin
 end
 
 // AXIS HANDSHAKE STUFF
-// always_ff @(posedge s00_axis_aclk) begin
-//     if (!s00_axis_aresetn) begin
-//         m00_axis_tstrb = 0;
-//         m00_axis_tvalid = 0;
-//         m00_axis_tlast = 0;
-//     end else begin
-//         if (s00_axis_tvalid && s00_axis_tready) begin // input handshake
-//             m00_axis_tvalid <= 1;
-//             m00_axis_tlast <= s00_axis_tlast;
-//             m00_axis_tstrb <= s00_axis_tstrb;
-//         end else if (m00_axis_tvalid && m00_axis_tready) begin // output handshake (data has been transferred)
-//             m00_axis_tvalid <= 0;
-//         end
-//     end
-// end
+always_ff @(posedge s00_axis_aclk) begin
+    if (!s00_axis_aresetn) begin
+        // m00_axis_tstrb = 0;
+        m00_axis_tvalid = 0;
+        // m00_axis_tlast = 0;
+    end else begin
+        if (s00_axis_tvalid && s00_axis_tready) begin // input handshake
+            m00_axis_tvalid <= 1;
+            // m00_axis_tlast <= s00_axis_tlast;
+            // m00_axis_tstrb <= s00_axis_tstrb;
+        end else if (m00_axis_tvalid && m00_axis_tready) begin // output handshake (data has been transferred)
+            m00_axis_tvalid <= 0;
+        end
+    end
+end
 
 endmodule
