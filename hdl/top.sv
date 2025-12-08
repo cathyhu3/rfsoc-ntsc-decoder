@@ -59,7 +59,7 @@ module top #
 
     //odd/even threshold
     logic [7:0] oddeven_th_threshold;
-    
+
     // logic [7:0] hsync_threshold_upper_fp;
     // logic [7:0] hsync_threshold_lower_st;
     // logic [7:0] hsync_threshold_upper_st;
@@ -133,14 +133,14 @@ module top #
         .s00_axis_aresetn(s00_axis_aresetn),
         .s00_axis_tlast(cordic_tlast),
         .s00_axis_tvalid(cordic_tvalid),
-        .s00_axis_tdata(cordic_tdata),
-        .s00_axis_tstrb(cordic_tstrb),
+        .s00_axis_tdata(cordic_magnitude),
+        .s00_axis_tstrb(2'b11),
         .s00_axis_tready(s00_tready_sync),
         .m00_axis_tready(1'b1),
         .m00_axis_tvalid(sync_tvalid),
         .m00_axis_tlast(sync_tlast),
         .m00_axis_tdata(sync_tdata),
-        .m00_axis_tstrb(sync_tstrb),
+        .m00_axis_tstrb(4'b1111),
         //vsync thresholds
         .vsync_lb(vsync_lb_threshold),
         .vsync_ub(vsync_ub_threshold),
@@ -158,120 +158,8 @@ module top #
 
     );
 
-    // logic vsync_detector_trigger;
-    // // single cycle high at falling edge of every vsync pulse
-    // vsync_detector #(.C_S00_AXIS_TDATA_WIDTH(C_S00_AXIS_TDATA_WIDTH)) vsync_detector_top (
-    //     .s00_axis_aclk(s00_axis_aclk),
-    //     .s00_axis_aresetn(s00_axis_aresetn),
-    //     .s00_axis_tlast(cordic_tlast),
-    //     .s00_axis_tvalid(cordic_tvalid),
-    //     .s00_axis_tdata({16'b0, cordic_magnitude}),
-    //     .s00_axis_tstrb(cordic_tstrb),
-    //     .s00_axis_tready(),
-    //     .trigger(vsync_detector_trigger), //output
-    //     //vsync thresholds coming from AXI-Lite regs
-    //     .low_threshold_vsync(vsync_low_threshold),
-    //     .high_threshold_vsync(vsync_high_threshold),
-    //     .low_vsync_region_length_threshold(vsync_region_length_low_threshold)
-	// );
-
-    // logic hsync_detector_trigger;
-    // logic colorburst_detector_trigger;
-    // logic [15:0] colorburst_black_ref; //black level from hsync
-    // logic in_hsync;
-    // logic hsync_valid_out;
-    // hsync_detector_axis #(.MAG_WIDTH(16)) hsync_detector_top (
-    //     .s00_axis_aclk   (s00_axis_aclk),
-    //     .s00_axis_aresetn(s00_axis_aresetn),
-    //     .s00_axis_tlast  (cordic_tlast),
-    //     .s00_axis_tvalid (cordic_tvalid),
-    //     .s00_axis_tdata  ({16'b0, cordic_magnitude}),
-    //     .s00_axis_tstrb  (cordic_tstrb),
-    //     .s00_axis_tready (),
-    //     // outputs
-    //     .hsync_pulse(hsync_detector_trigger),
-    //     .cb_pulse(colorburst_detector_trigger),
-    //     .colorburst_val(colorburst_black_ref),
-    //     .hsync(in_hsync),
-    //     // hsync thresholds coming from AXI-Lite regs
-    //     .lower_ls (hsync_threshold_lower_ls),
-    //     .upper_ls (hsync_threshold_upper_ls),
-    //     .lower_hs (hsync_threshold_lower_hs),
-    //     .upper_hs (hsync_threshold_upper_hs),
-    //     .lower_vd (hsync_threshold_lower_vd),
-    //     .upper_vd (hsync_threshold_upper_vd),
-    //     .lower_fp (hsync_threshold_lower_fp),
-    //     .upper_fp (hsync_threshold_upper_fp),
-    //     .lower_st (hsync_threshold_lower_st),
-    //     .upper_st (hsync_threshold_upper_st),
-    //     .lower_bp (hsync_threshold_lower_bp),
-    //     .upper_bp (hsync_threshold_upper_bp),
-    //     .lower_eq (hsync_threshold_lower_eq),
-    //     .upper_eq (hsync_threshold_upper_eq),
-    //     .m00_axis_aclk   (),
-    //     .m00_axis_aresetn(),
-    //     .m00_axis_tlast  (),
-    //     .m00_axis_tvalid (hsync_valid_out),
-    //     .m00_axis_tdata  (),
-    //     .m00_axis_tstrb  (),
-    //     .m00_axis_tready ()
-    // );
-
-
-    //TODO INSERT FSM HERE #################
-    // uses detector vals: cordic_magnitude, vsync_detector_trigger, hsync_detector_trigger, colorburst_detector_trigger, colorburst_black_ref
-    // outputs to decoder: odd_even_interlace_parity
-    // outputs of toplevel to framebuffer: state 
-    
-
-
-
-    // logic [3:0] hsync_counter;
-    // logic [3:0] vsync_counter;
-
-    // // logic vsync_falling_edge_trigger; //set using FSM (pulse when the vsync period at the end of each frame ends)
-    // logic check_evenodd; //set using FSM (pulse when the hsync period at thes start of each frame ends)
-    // logic odd_even_interlace_parity; //set using FSM (tells )
-    // logic decodeline_trigger;
-
-
-    // localparam HSYNC_COUNT = 11;
-
-    // assign check_evenodd = (hsync_counter == HSYNC_COUNT-1);
-
-    // enum {IDLE, FRAME_SYNC, EVENODD, DECODE_LINE} state;
-
-    // //END FSM HERE #################
-    // always_ff @(s00_axis_aclk) begin
-    //     if (!s00_axis_aresetn) begin
-    //         state <= IDLE;
-    //     end else begin
-    //         if (s00_axis_tvalid && s00_axis_tready) begin
-    //             case (state)
-    //                 IDLE: begin
-    //                     state <= (vsync_detector_trigger) ? FRAME_SYNC;
-    //                     hsync_counter <= 0;
-    //                 end
-    //                 FRAME_SYNC: begin
-    //                     hsync_counter <= (hsync_detector_trigger) ? hsync_counter + 1;
-    //                     state <= (check_evenodd) ? STARTLINE_EVENODD;
-    //                     odd_even_interlace_parity <= 1; // first assume even
-    //                 end
-    //                 EVENODD: begin // between the 11th and 12th hsync line
-    //                     if (cordic_magnitude < 71) begin
-    //                         odd_even_interlace_parity <= 0; // if it ever goes below 71 threshold it's odd
-    //                     end
-                        
-    //                     if (colorburst_detector_trigger) begin
-    //                         state <= DECODE_LINE;
-    //                     end
-    //                 end
-    //                 DECODE_LINE: state <= (vsync_detector_trigger) ? FRAME_SYNC;
-    //             endcase
-    //         end
-    //     end
-    // end
-
+    logic [15:0] colorburst_black_ref; //black level from hsync
+    assign colorburst_black_ref = sync_tdata[15:0];
      // State machine that starts decoding pixels from the magnitude data
     video_data_decoder #(.ACTIVE_SAMPLES_PER_LINE(421)) video_data_decoder_top(
         .s00_axis_aclk(s00_axis_aclk),
@@ -281,15 +169,9 @@ module top #
         // .s00_axis_tdata({16'b0, cordic_magnitude}),
         .s00_axis_tdata(sync_tdata),
         .s00_axis_tstrb(s00_axis_tstrb),
-        //sync detector inputs
-        // .hsync(check_evenodd),
-        // .vsync(vsync_falling_edge_trigger),
-        // .in_hsync(in_hsync),
-        // .state(state),
-        // .start_decode_trigger(colorburst_detector_trigger),
-        // .odd_even_interlace_parity(odd_even_interlace_parity),
         //threshold inputs
-        .black_level(colorburst_black_ref), // NOTE: if not working hardcode using "black_level_default" from MMIO
+        //.black_level(colorburst_black_ref), // NOTE: if not working hardcode using "black_level_default" from MMIO
+        .black_level(black_level_default),//"black_level_default" from MMIO TODO CHANGE TO 8BITS IN VIDEO DATA DECODER
         .white_level(white_level_default),
         // AXI master out
         .m00_axis_tdata(m00_axis_tdata), //32 bit encoded data to FIFO [0....0, odd/even bit, hsync, vsync, 8-bit luma value]

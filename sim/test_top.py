@@ -94,48 +94,40 @@ def build_frame_from_samples(samples, max_lines=525):
     return img
 
 
-
 def make_default_mmio_thresholds():
     """
-    Pack the default thresholds from top.sv into a single integer
-    matching MMIO_thresholds[151:0].
+    Pack the updated default thresholds from top.sv into a single integer
+    matching MMIO_thresholds[95:0].
 
     Byte ordering (LSB first):
-      0  vsync_low_threshold               ~172
-      1  vsync_high_threshold              ~185
-      2  vsync_region_length_low_threshold ~200
-      3  black_level_default               ~150
-      4  white_level_default               ~40
-      5  hsync_threshold_lower_ls          ~128
-      6  hsync_threshold_upper_ls          ~136
-      7  hsync_threshold_lower_hs          ~184
-      8  hsync_threshold_upper_hs          ~190
-      9  hsync_threshold_lower_vd          ~75
-     10  hsync_threshold_upper_vd          ~100
-     11  hsync_threshold_lower_fp          ~133
-     12  hsync_threshold_upper_fp          ~138
-     13  hsync_threshold_lower_st          ~184
-     14  hsync_threshold_upper_st          ~192
-     15  hsync_threshold_lower_bp          ~134
-     16  hsync_threshold_upper_bp          ~142
-     17  hsync_threshold_lower_eq          ~135
-     18  hsync_threshold_upper_eq          ~142
+      0  vsync_lb_threshold                 ~172
+      1  vsync_ub_threshold                 ~185
+      2  vsync_samples_lb_threshold         ~160
+      3  black_level_default                ~150
+      4  white_level_default                ~40
+      5  hsync_lb_threshold                 ~184
+      6  hsync_ub_threshold                 ~199
+      7  hsync_samples_lb_threshold         ~38
+      8  cb_lb_threshold                    ~130
+      9  cb_ub_threshold                    ~145
+     10  cb_samples_ub_threshold            ~23
+     11  oddeven_th_threshold               ~85
     """
+
     threshold_bytes = [
-        172, 185, 200,
-        150,  40,
-        128, 136,
-        184, 190,
-         75, 100,
-        133, 138,
-        184, 192,
-        134, 142,
-        135, 142,
+        172, 185, 160,     # VSYNC thresholds
+        150,  40,          # Color levels
+        184, 199, 38,      # HSYNC thresholds
+        130, 145, 23,      # Colorburst thresholds
+        85,                # Odd/even threshold
     ]
+
     mmio_val = 0
     for i, b in enumerate(threshold_bytes):
         mmio_val |= (b & 0xFF) << (8 * i)
+
     return mmio_val
+
 
 
 
@@ -304,19 +296,19 @@ async def test_top(dut):
             await RisingEdge(dut.m00_axis_aclk)
             if dut.m00_axis_tvalid.value and dut.m00_axis_tready.value:
                 raw = int(dut.m00_axis_tdata.value)
-                flags = (raw >> 9) & 0xF     # bits [12:9]
-                luma  =  raw        & 0x1FF  # bits [8:0]
+                flags = (raw >> 8) & 0xF     # bits [11:8]
+                luma  =  raw        & 0xFF  # bits [7:0]
                 print(
-                    f"[m00] time={gst()} ps  "
-                    f"flags[12:9]={flags:04b}  "
-                    f"luma[8:0]={luma}"
+                    f"[m00] time={gst()} ps  "  #m00_axis_tdata = {20'b0, trigger, oddeven, state_val, y}
+                    f"flags[11:8]={flags:04b}  "
+                    f"luma[7:0]={luma}"
                 )
 
-                interlace = (raw >> 10) & 0x1   # bit 10
-                vsync     = (raw >> 9)  & 0x1   # bit 9
-                hsync     = (raw >> 8)  & 0x1   # bit 8
-                luma      =  raw        & 0xFF  # bits [7:0], 0-255
-                samples.append((interlace, vsync, hsync, luma))
+                # interlace = (raw >> 10) & 0x1   # bit 10
+                # vsync     = (raw >> 9)  & 0x1   # bit 9
+                # hsync     = (raw >> 8)  & 0x1   # bit 8
+                # luma      =  raw        & 0xFF  # bits [7:0], 0-255
+                # samples.append((interlace, vsync, hsync, luma))
 
     cocotb.start_soon(watch_m00())
 
@@ -330,11 +322,11 @@ async def test_top(dut):
     await ClockCycles(dut.s00_axis_aclk, len(real_array) + 200)
 
     # now samples[] is filled – build and plot a frame:
-    frame = build_frame_from_samples(samples)
-    np.save("frame.npy", frame)  # if you want to inspect later
-    plt.imshow(frame, cmap="gray", vmin=0, vmax=255)
-    plt.title("Captured frame")
-    plt.savefig("frame.png")
+    # frame = build_frame_from_samples(samples)
+    # np.save("frame.npy", frame)  # if you want to inspect later
+    # plt.imshow(frame, cmap="gray", vmin=0, vmax=255)
+    # plt.title("Captured frame")
+    # plt.savefig("frame.png")
 
 
 
@@ -346,7 +338,7 @@ def adsb_runner():
     sys.path.append(str(proj_path / "sim" / "model"))
     sys.path.append(str(proj_path / "hdl" ))
     #sources = [proj_path / "hdl" / "vsync_detector.sv"]
-    sources = [proj_path / "hdl" / "cordic.sv", proj_path / "hdl" / "top.sv", proj_path / "hdl" / "video_data_decoder.sv", proj_path / "hdl" / "vsync_detector.sv", proj_path / "hdl" / "hsync_detector.sv"]
+    sources = [proj_path / "hdl" / "cordic.sv", proj_path / "hdl" / "top.sv", proj_path / "hdl" / "video_data_decoder.sv", proj_path / "hdl" / "sync_detector_axis.sv"]
     #sources = [proj_path / "hdl" / "axis_fir.sv", proj_path / "hdl" / "preamble_detector.sv", proj_path / "hdl" / "top.sv", proj_path / "hdl" / "adsb_decoder.sv", proj_path / "hdl" / "cordic.sv"]
     #sources = [proj_path / "hdl" / "j_math.sv"]
     build_test_args = ["-Wall"]
