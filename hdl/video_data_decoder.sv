@@ -16,7 +16,7 @@ module video_data_decoder #
 		// Ports of Axi Slave Bus Interface S00_AXIS
 		input wire  s00_axis_aclk, s00_axis_aresetn,
 		input wire  s00_axis_tlast, s00_axis_tvalid,
-		input wire [C_S00_AXIS_TDATA_WIDTH-1 : 0] s00_axis_tdata, // Magnitude data from the CORDIC, 16bits
+		input wire [C_S00_AXIS_TDATA_WIDTH-1 : 0] s00_axis_tdata, // {11'b0, colorburst_trigger, evenodd, state, magnitude}
 		input wire [(C_S00_AXIS_TDATA_WIDTH/8)-1: 0] s00_axis_tstrb,
 		output logic  s00_axis_tready,
 
@@ -24,12 +24,6 @@ module video_data_decoder #
 		output logic  m00_axis_tvalid, m00_axis_tlast,
 		output logic [C_M00_AXIS_TDATA_WIDTH-1 : 0] m00_axis_tdata, // outputs 8 bit luminance value - ignore downstream ready because we have a FIFO downstream
 		output logic [(C_M00_AXIS_TDATA_WIDTH/8)-1: 0] m00_axis_tstrb,
-        
-        // sync detector inputs
-        input wire in_hsync, // high when in hsync - not sure we need this
-        input wire [1:0] state, // enum {IDLE, FRAME_SYNC, EVENODD, DECODE_LINE}
-        input wire start_decode_trigger,
-        input wire odd_even_interlace_parity,
 
         // threshold inputs - Programmable black / white levels (in same units as magnitude)
         // e.g. black_level ≈ 32'd150, white_level ≈ 32'd30
@@ -41,8 +35,17 @@ module video_data_decoder #
     // pixel in line counter
     localparam integer LINE_SAMPLE_COUNTER_WIDTH  = $clog2(ACTIVE_SAMPLES_PER_LINE+1);
     logic [LINE_SAMPLE_COUNTER_WIDTH-1:0]   line_sample_count; // counts samples within this active line
+
+    logic [15:0] magnitude;
+    logic [1:0] state;
+    logic start_decode_trigger;
+    logic odd_even_interlace_parity;
+    assign magnitude = s00_axis_tdata[15:0];
+    assign state = s00_axis_tdata[17:16];
+    assign odd_even_interlace_parity = s00_axis_tdata[18];
+    assign start_decode_trigger = s00_axis_tdata[19];
     
-    // valeus to pipeline out through tdata
+    // values to pipeline out through tdata
     logic trigger;
     logic oddeven;
     logic [1:0] state_val;
@@ -78,7 +81,7 @@ module video_data_decoder #
                         fsm <= DECODE;                                  // transition to decode state
                         line_sample_count <= line_sample_count + 1;     // increment counter
                         trigger <= 1;                                   
-                        y <= 256 * ((s00_axis_tdata - white_level)/(black_level - white_level)); // map cordic magnitude to 8-bit (0-255)
+                        y <= 256 * ((magnitude - white_level)/(black_level - white_level)); // map cordic magnitude to 8-bit (0-255)
                     end
 
                     else begin
@@ -94,7 +97,7 @@ module video_data_decoder #
 
                     if (line_sample_count < ACTIVE_SAMPLES_PER_LINE-1) begin
                         line_sample_count <= line_sample_count + 1;
-                        y <= 256 * ((s00_axis_tdata - white_level)/(black_level - white_level)); // map cordic magnitude to 8-bit (0-255)
+                        y <= 256 * ((magnitude - white_level)/(black_level - white_level)); // map cordic magnitude to 8-bit (0-255)
                     end 
                     
                     // collected all 421 pixels
