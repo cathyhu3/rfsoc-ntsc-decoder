@@ -175,7 +175,7 @@ localparam HSYNC_COUNT = 11;
 // assign check_evenodd = (hsync_counter == HSYNC_COUNT-1);
 logic past_hsync_trigger;
 
-always_ff @(s00_axis_aclk) begin
+always_ff @(posedge s00_axis_aclk) begin
     if (!s00_axis_aresetn) begin
         state <= IDLE;
         cb_sample_counter <= 0;
