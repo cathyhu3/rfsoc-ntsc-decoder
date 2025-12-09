@@ -65,23 +65,40 @@ def construct_frame(samples, max_lines=525):
 
     oddeven_count = 0 # need to get to 1 to make a whole frame
 
-    while oddeven_count < 2:
-        for i, trigger, oddeven, state, pixel in enumerate(samples):
-            if state == 0: # waiting for first trigger
-                if trigger:
-                    state = 1
-                    line_num = oddeven
+    # while oddeven_count < 2:
+    #     for i, trigger, oddeven, state, pixel in enumerate(samples):
+    #         if state == 0: # waiting for first trigger
+    #             if trigger:
+    #                 state = 1
+    #                 line_num = oddeven
+    #         else:
+    #             if trigger:
+    #                 if len(cur_line) > 0:
+    #                     row_to_insert = np.array(cur_line)
+    #                     insert_row(frame, line_num, row_to_insert)
+    #                     line_num += 2
+    #                 cur_line = []
+    #             else:
+    #                 cur_line.append(pixel)
+    #     oddeven_count += 1
+    # return frame
+    for trigger, oddeven, state, pixel in samples:
+        if state == 0: # waiting for first trigger
+            if trigger:
+                state = 1
+                line_num = oddeven
+        else:
+            if trigger:
+                if len(cur_line) > 0:
+                    row_to_insert = np.array(cur_line)
+                    insert_row(frame, line_num, row_to_insert)
+                    line_num += 2
+                cur_line = []
             else:
-                if trigger:
-                    if len(cur_line) > 0:
-                        row_to_insert = np.array(cur_line)
-                        insert_row(frame, line_num, row_to_insert)
-                        line_num += 2
-                    cur_line = []
-                else:
-                    cur_line.append(pixel)
-        oddeven_count += 1
+                cur_line.append(pixel)
+        # oddeven_count += 1
     return frame
+
 
 def plot_frames(frames):
     
@@ -369,26 +386,26 @@ async def test_top(dut):
     frames = []
 
     # 2) monitor m00_axis_tdata and print fields on valid handshake
-    # async def watch_m00():
-    #     while True:
-    #         await RisingEdge(dut.m00_axis_aclk)
-    #         if dut.m00_axis_tvalid.value and dut.m00_axis_tready.value:
-    #             raw = dut.m00_axis_tdata.value
+    async def watch_m00():
+        while True:
+            await RisingEdge(dut.m00_axis_aclk)
+            if dut.m00_axis_tvalid.value and dut.m00_axis_tready.value:
+                raw = dut.m00_axis_tdata.value
 
-    #             pixel = raw & 0xFF
-    #             state = (raw >> 8) & 7
-    #             oddeven = (raw >> 11) & 1
-    #             trigger = (raw >> 12) & 1
-    #             samples = [] # THEN samples reset
-    #             while (state != 0 and state != 1): # dont append anything when in IDLE or FRAME_SYNC
-    #                 pixel = raw & 0xFF
-    #                 state = (raw >> 8) & 7
-    #                 oddeven = raw >> 11 & 1
-    #                 trigger = raw >> 12 & 1
-    #                 samples.append((trigger, oddeven, state, pixel))
-    #             frames.append(construct_frame(samples))
+                pixel = raw & 0xFF
+                state = (raw >> 8) & 7
+                oddeven = (raw >> 11) & 1
+                trigger = (raw >> 12) & 1
+                samples = [] # THEN samples reset
+                while (state != 0 and state != 1): # dont append anything when in IDLE or FRAME_SYNC
+                    pixel = raw & 0xFF
+                    state = (raw >> 8) & 7
+                    oddeven = raw >> 11 & 1
+                    trigger = raw >> 12 & 1
+                    samples.append((trigger, oddeven, state, pixel))
+                frames.append(construct_frame(samples))
 
-    # cocotb.start_soon(watch_m00())
+    cocotb.start_soon(watch_m00())
     # cocotb.start_soon(collect_frames())
 
     # Drive the AXIS input
@@ -407,7 +424,8 @@ async def test_top(dut):
     # plt.title("Captured frame")
     # plt.savefig("frame.png")
     # print("HIIIIIII")
-    # plot_frames(frames)
+    construct_frame(samples)
+    plot_frames(frames)
 
 
 
