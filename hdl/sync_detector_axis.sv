@@ -79,9 +79,9 @@ localparam int VSYNC_LB                 = 172;
 localparam int VSYNC_UB                 = 185;
 localparam int VSYNC_SAMPLES_LB         = 160;
 // HYSNC
-localparam int HSYNC_LB                 = 184;
+localparam int HSYNC_LB                 = 182;
 localparam int HSYNC_UB                 = 199;
-localparam int HSYNC_SAMPLES_LB         = 38;
+localparam int HSYNC_SAMPLES_LB         = 35;
 // COLORBURST
 localparam int CB_LB                    = 130;
 localparam int CB_UB                    = 145;
@@ -173,6 +173,7 @@ logic check_evenodd;
 logic [3:0] hsync_counter;
 localparam HSYNC_COUNT = 11;
 // assign check_evenodd = (hsync_counter == HSYNC_COUNT-1);
+logic past_hsync_trigger;
 
 always_ff @(s00_axis_aclk) begin
     if (!s00_axis_aresetn) begin
@@ -181,24 +182,27 @@ always_ff @(s00_axis_aclk) begin
         cb_trigger <= 0;
     end else begin
         if (s00_axis_tvalid && s00_axis_tready) begin
+            past_hsync_trigger <= hsync_trigger;
             case (state)
                 IDLE: begin
                     state <= (vsync_trigger) ? FRAME_SYNC : IDLE;
                     hsync_counter <= 0;
                 end
                 FRAME_SYNC: begin
-                    hsync_counter <= (hsync_trigger) ? hsync_counter + 1 : hsync_counter;
+                    hsync_counter <= (hsync_trigger && !past_hsync_trigger) ? hsync_counter + 1 : hsync_counter;
                     state <= (hsync_counter == 11) ? EVENODD : FRAME_SYNC;
                     odd_even_interlace_parity <= 1; // first assume even
                 end
                 EVENODD: begin // between the 11th and 12th hsync line
                     // if (magnitude < ODDEVEN_TH) begin
-                    if (magnitude < oddeven_th) begin
-                        odd_even_interlace_parity <= 0; // if it ever goes below 71 threshold it's odd
-                    end
-                    
-                    if (hsync_trigger) begin
+                    // if (magnitude < oddeven_th) begin
+                    //     odd_even_interlace_parity <= 0; // if it ever goes below 71 threshold it's odd
+                    // end
+                    if (hsync_trigger && !past_hsync_trigger) begin
                         state <= COLORBURST;
+                        // state <= IDLE;
+                    end else if (magnitude < oddeven_th) begin
+                        odd_even_interlace_parity <= 0; // if it ever goes below 71 threshold it's odd
                     end
                 end
                 COLORBURST: begin

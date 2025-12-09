@@ -183,34 +183,23 @@ def make_default_mmio_thresholds():
     Byte ordering (LSB first):
       0  vsync_low_threshold               ~172
       1  vsync_high_threshold              ~185
-      2  vsync_region_length_low_threshold ~200
+      2  vsync_region_length_low_threshold ~160
       3  black_level_default               ~150
       4  white_level_default               ~40
-      5  hsync_threshold_lower_ls          ~128
-      6  hsync_threshold_upper_ls          ~136
-      7  hsync_threshold_lower_hs          ~184
-      8  hsync_threshold_upper_hs          ~190
-      9  hsync_threshold_lower_vd          ~75
-     10  hsync_threshold_upper_vd          ~100
-     11  hsync_threshold_lower_fp          ~133
-     12  hsync_threshold_upper_fp          ~138
-     13  hsync_threshold_lower_st          ~184
-     14  hsync_threshold_upper_st          ~192
-     15  hsync_threshold_lower_bp          ~134
-     16  hsync_threshold_upper_bp          ~142
-     17  hsync_threshold_lower_eq          ~135
-     18  hsync_threshold_upper_eq          ~142
+      5  hsync_threshold_lower             ~182
+      6  hsync_threshold_upper             ~199
+      7  hsync_samples_lb                  ~33
+      8  cb_threshold_lower                ~130
+      9  cb_threshold_upper                ~145
+      10 cb_samples_lb                     ~23
+      11 oddeven_th                        ~85
     """
     threshold_bytes = [
-        172, 185, 200,
-        150,  40,
-        128, 136,
-        184, 190,
-         75, 100,
-        133, 138,
-        184, 192,
-        134, 142,
-        135, 142,
+        172, 185, 160,
+        150, 40,
+        182, 199, 33,
+        130, 145, 23,
+        85
     ]
     mmio_val = 0
     for i, b in enumerate(threshold_bytes):
@@ -364,11 +353,11 @@ async def test_top(dut):
     dut.m00_axis_tready.value = 1
 
     # Load example ADC data (real & imag)
-    real_array = np.load(proj_path / "sim" / "real_array_pattern.npy")[:1000]
-    imag_array = np.load(proj_path / "sim" / "imag_array_pattern.npy")[:1000]
+    real_array = np.load(proj_path / "sim" / "real_array_pattern.npy")[17000:155500]
+    imag_array = np.load(proj_path / "sim" / "imag_array_pattern.npy")[17000:155500]
 
-    real_data = real_array.astype(np.int16)
-    imag_data = imag_array.astype(np.int16)
+    real_data = np.abs(real_array.astype(np.int16))
+    imag_data = np.abs(imag_array.astype(np.int16))
 
     # Pack I/Q into 32-bit words: [31:16] = I, [15:0] = Q
     packed_data = (real_data.astype(np.uint32) << 16) | (imag_data.astype(np.uint32) & 0xFFFF)
@@ -380,26 +369,26 @@ async def test_top(dut):
     frames = []
 
     # 2) monitor m00_axis_tdata and print fields on valid handshake
-    async def watch_m00():
-        while True:
-            await RisingEdge(dut.m00_axis_aclk)
-            if dut.m00_axis_tvalid.value and dut.m00_axis_tready.value:
-                raw = int(dut.m00_axis_tdata.value)
+    # async def watch_m00():
+    #     while True:
+    #         await RisingEdge(dut.m00_axis_aclk)
+    #         if dut.m00_axis_tvalid.value and dut.m00_axis_tready.value:
+    #             raw = dut.m00_axis_tdata.value
 
-                pixel = raw & 0xFF
-                state = (raw >> 8) & 7
-                oddeven = (raw >> 11) & 1
-                trigger = (raw >> 12) & 1
-                samples = [] # THEN samples reset
-                while (state != 0 and state != 1): # dont append anything when in IDLE or FRAME_SYNC
-                    pixel = raw & 0xFF
-                    state = (raw >> 8) & 7
-                    oddeven = raw >> 11 & 1
-                    trigger = raw >> 12 & 1
-                    samples.append((trigger, oddeven, state, pixel))
-                frames.append(construct_frame(samples))
+    #             pixel = raw & 0xFF
+    #             state = (raw >> 8) & 7
+    #             oddeven = (raw >> 11) & 1
+    #             trigger = (raw >> 12) & 1
+    #             samples = [] # THEN samples reset
+    #             while (state != 0 and state != 1): # dont append anything when in IDLE or FRAME_SYNC
+    #                 pixel = raw & 0xFF
+    #                 state = (raw >> 8) & 7
+    #                 oddeven = raw >> 11 & 1
+    #                 trigger = raw >> 12 & 1
+    #                 samples.append((trigger, oddeven, state, pixel))
+    #             frames.append(construct_frame(samples))
 
-    cocotb.start_soon(watch_m00())
+    # cocotb.start_soon(watch_m00())
     # cocotb.start_soon(collect_frames())
 
     # Drive the AXIS input
@@ -417,7 +406,7 @@ async def test_top(dut):
     # plt.imshow(frame, cmap="gray", vmin=0, vmax=255)
     # plt.title("Captured frame")
     # plt.savefig("frame.png")
-    print("HIIIIIII")
+    # print("HIIIIIII")
     # plot_frames(frames)
 
 

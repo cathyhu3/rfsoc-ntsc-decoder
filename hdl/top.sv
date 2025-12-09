@@ -31,14 +31,23 @@ module top #
         output logic [2:0] state,
         output logic oddeven,
         output logic trigger,
+        output logic [31:0] sample_count,
 
-        input wire [255:0] MMIO_thresholds //TODO 8*32-bit registers, 8bit (0->255) thresholds 
+        input wire [127:0] MMIO_thresholds //TODO 8*32-bit registers, 8bit (0->255) thresholds 
 	);
+
+    always_ff @(posedge s00_axis_aclk) begin
+        if (!s00_axis_aresetn) begin
+            sample_count <= 16000;
+        end else begin
+            sample_count <= sample_count + 1;
+        end
+    end
 
     assign pixel = m00_axis_tdata[7:0];
     assign state = m00_axis_tdata[10:8];
     assign oddeven = m00_axis_tdata[11];
-    assign trigger = m00_axis_tdata[12];
+    assign trigger = sync_tdata[20];
 
     assign s00_axis_tready = m00_axis_tready;
 
@@ -79,28 +88,29 @@ module top #
     // logic [7:0] hsync_threshold_lower_eq;
     // logic [7:0] hsync_threshold_upper_eq;
 
-    initial begin
+
         // VSYNC THRESHOLDS
-        vsync_lb_threshold = MMIO_thresholds[7:0];       // ~172
-        vsync_ub_threshold = MMIO_thresholds[15:8];      // ~185
-        vsync_samples_lb_threshold = MMIO_thresholds[23:16];     // ~160
+    assign vsync_lb_threshold          = MMIO_thresholds[7:0];        // ~172
+    assign vsync_ub_threshold          = MMIO_thresholds[15:8];       // ~185
+    assign vsync_samples_lb_threshold  = MMIO_thresholds[23:16];      // ~160
 
-        // COLOR LEVEL THRESHOLDS
-        black_level_default = MMIO_thresholds[31:24];     // ~150
-        white_level_default = MMIO_thresholds[39:32];     // ~40
+    // COLOR LEVEL THRESHOLDS
+    assign black_level_default         = MMIO_thresholds[31:24];      // ~150
+    assign white_level_default         = MMIO_thresholds[39:32];      // ~40
 
-        // HSYNC THRESHOLDS
-        hsync_lb_threshold = MMIO_thresholds[47:40];     // default ~184
-        hsync_ub_threshold = MMIO_thresholds[55:48];     // default ~199
-        hsync_samples_lb_threshold = MMIO_thresholds[63:56];     // default ~38
+    // HSYNC THRESHOLDS
+    assign hsync_lb_threshold          = MMIO_thresholds[47:40];      // default ~184
+    assign hsync_ub_threshold          = MMIO_thresholds[55:48];      // default ~199
+    assign hsync_samples_lb_threshold  = MMIO_thresholds[63:56];      // default ~38
 
-        //colorburst threshold
-        cb_lb_threshold = MMIO_thresholds[71:64];     // default ~130
-        cb_ub_threshold = MMIO_thresholds[79:72];     // default ~145
-        cb_samples_ub_threshold = MMIO_thresholds[87:80];     // default ~23
+    // COLORBURST THRESHOLDS
+    assign cb_lb_threshold             = MMIO_thresholds[71:64];      // default ~130
+    assign cb_ub_threshold             = MMIO_thresholds[79:72];      // default ~145
+    assign cb_samples_ub_threshold     = MMIO_thresholds[87:80];      // default ~23
 
-        //odd/even threshold
-        oddeven_th_threshold = MMIO_thresholds[95:88];     // default ~85
+    // ODD/EVEN THRESHOLD
+    assign oddeven_th_threshold        = MMIO_thresholds[95:88];      // default ~85
+
 
         // hsync_threshold_upper_fp          = MMIO_thresholds[103:96];    // default ~138 (UPPER_FP)
         // hsync_threshold_lower_st          = MMIO_thresholds[111:104];   // default ~184 (LOWER_ST)
@@ -109,7 +119,6 @@ module top #
         // hsync_threshold_upper_bp          = MMIO_thresholds[135:128];   // default ~142 (UPPER_BP)
         // hsync_threshold_lower_eq          = MMIO_thresholds[143:136];   // default ~135 (LOWER_EQ)
         // hsync_threshold_upper_eq          = MMIO_thresholds[151:144];   // default ~142 (UPPER_EQ)
-    end
 
     // Feed the 16-bit filtered/scaled/clipped I/Q data into the CORDIC to calculate its magnitude.
     logic cordic_tvalid;

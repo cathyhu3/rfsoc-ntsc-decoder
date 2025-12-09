@@ -1,6 +1,6 @@
 <testsuites name="results">
   <testsuite name="all" package="all">
-    <property name="random_seed" value="1765230642" />
-    <testcase name="test_top" classname="test_top_create_video" file="/Users/cathyhu/fall2025/rfsoc-ntsc-decoder/sim/test_top_create_video.py" lineno="343" time="0.39403414726257324" sim_time_ns="18782.452001" ratio_time="47667.066754201645" />
+    <property name="random_seed" value="1765248237" />
+    <testcase name="test_top" classname="test_top_create_video" file="/Users/cathyhu/fall2025/rfsoc-ntsc-decoder/sim/test_top_create_video.py" lineno="332" time="16.024684190750122" sim_time_ns="2167357.452001" ratio_time="135251.18037908396" />
   </testsuite>
 </testsuites>
