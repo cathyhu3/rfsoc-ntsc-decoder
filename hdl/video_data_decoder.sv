@@ -20,8 +20,9 @@ module video_data_decoder #
 		output logic  s00_axis_tready,
 
 		// Ports of Axi Master Bus Interface M00_AXIS
+		input wire  m00_axis_tready,
 		output logic  m00_axis_tvalid, m00_axis_tlast,
-		output logic [C_M00_AXIS_TDATA_WIDTH-1 : 0] m00_axis_tdata, // outputs 8 bit luminance value - ignore downstream ready because we have a FIFO downstream
+		output logic [C_M00_AXIS_TDATA_WIDTH-1 : 0] m00_axis_tdata, // outputs 8 bit luminance value
 		output logic [(C_M00_AXIS_TDATA_WIDTH/8)-1: 0] m00_axis_tstrb,
 
         // threshold inputs - Programmable black / white levels (in same units as magnitude)
@@ -34,6 +35,7 @@ module video_data_decoder #
     localparam integer LINE_SAMPLE_COUNTER_WIDTH  = $clog2(ACTIVE_SAMPLES_PER_LINE+1);
     logic [LINE_SAMPLE_COUNTER_WIDTH-1:0]   line_sample_count; // counts samples within this active line
 
+    // break up input data into individual signals {19'b0, start_decode_trigger, odd_even_interlace_parity, state, magnitude}
     logic [15:0] magnitude;
     logic [2:0] state;
     logic start_decode_trigger;
@@ -43,17 +45,17 @@ module video_data_decoder #
     assign odd_even_interlace_parity = s00_axis_tdata[19];
     assign start_decode_trigger = s00_axis_tdata[20];
     
-    // values to pipeline out through tdata
+    // values to pipeline out through tdata {19'b0, trigger, oddeven, state_val, y}
     logic trigger;
     logic oddeven;
     logic [2:0] state_val;
     logic [7:0] y;
 
-    assign s00_axis_tready = 1'b1;
-    assign m00_axis_tstrb  = { (C_M00_AXIS_TDATA_WIDTH/8) {1'b1} }; // todo
-    assign m00_axis_tlast = 1'b0;
+    // AXI4-Stream handshake signals
+    assign s00_axis_tready = m00_axis_tready;
     assign m00_axis_tdata = {19'b0, trigger, oddeven, state_val, y};
 
+    // FSM stuff
     typedef enum logic {IDLE, DECODE} fsm_state_t;
     fsm_state_t fsm;
 
@@ -62,18 +64,25 @@ module video_data_decoder #
         if (!s00_axis_aresetn) begin
 
             line_sample_count  <= 0;
-            m00_axis_tvalid <= 0;
+            fsm <= IDLE;
+
             trigger <= 0;
             oddeven <= 0;
             state_val <= 0;
             y <= 0;
-            fsm <= IDLE;
+
+            m00_axis_tstrb <= 0;
+            m00_axis_tlast <= 0;    
+            m00_axis_tvalid <= 0;
 
         end else begin
 
 
-            if (s00_axis_tvalid) begin
+            if (s00_axis_tvalid && s00_axis_tready) begin
+
                 m00_axis_tvalid <= 1;
+                m00_axis_tstrb <= s00_axis_tstrb;
+                m00_axis_tlast <= s00_axis_tlast;
 
                 case (fsm)
 
@@ -127,7 +136,8 @@ module video_data_decoder #
                         fsm <= IDLE;
                     end
                 endcase
-            end else begin
+            end else if (m00_axis_tvalid && m00_axis_tready) begin
+                // Output handshake completed
                 m00_axis_tvalid <= 0;
             end
         end

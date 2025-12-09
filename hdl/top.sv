@@ -156,7 +156,7 @@ module top #
         .s00_axis_tdata(cordic_magnitude),
         .s00_axis_tstrb(2'b11),
         .s00_axis_tready(s00_tready_sync),
-        .m00_axis_tready(1'b1),
+        .m00_axis_tready(m00_axis_tready), // Connect to DMA ready to propagate backpressure
         .m00_axis_tvalid(sync_tvalid),
         .m00_axis_tlast(sync_tlast),
         .m00_axis_tdata(sync_tdata),
@@ -184,16 +184,17 @@ module top #
     video_data_decoder #(.ACTIVE_SAMPLES_PER_LINE(421)) video_data_decoder_top(
         .s00_axis_aclk(s00_axis_aclk),
         .s00_axis_aresetn(s00_axis_aresetn),
-        .s00_axis_tlast(s00_axis_tlast),
-        .s00_axis_tvalid(s00_axis_tvalid),
+        .s00_axis_tlast(sync_tlast), // Connect to sync_detector's tlast, not top-level
+        .s00_axis_tvalid(sync_tvalid),
         // .s00_axis_tdata({16'b0, cordic_magnitude}),
         .s00_axis_tdata(sync_tdata),
-        .s00_axis_tstrb(s00_axis_tstrb),
+        .s00_axis_tstrb(4'b1111),
         //threshold inputs
         //.black_level(colorburst_black_ref), // NOTE: if not working hardcode using "black_level_default" from MMIO
         .black_level(black_level_default),//"black_level_default" from MMIO TODO CHANGE TO 8BITS IN VIDEO DATA DECODER
         .white_level(white_level_default),
         // AXI master out
+        .m00_axis_tready(m00_axis_tready),
         .m00_axis_tdata(m00_axis_tdata), //32 bit encoded data to FIFO [0....0, odd/even bit, hsync, vsync, 8-bit luma value]
         .m00_axis_tvalid(m00_axis_tvalid),
         .m00_axis_tlast(m00_axis_tlast),
