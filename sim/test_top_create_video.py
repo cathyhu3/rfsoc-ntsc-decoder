@@ -126,67 +126,78 @@ def plot_frames(frames):
         plt.axis('off')
         plt.show()
 
-def build_frame_from_samples(samples, max_lines=525):
+def build_frame_from_samples(samples, num_lines=240, pixels_per_line=421):
     """
-    Convert a flat list of (interlace, vsync, hsync, luma) tuples
+    Convert a flat list of (trigger, oddeven, state, pixel) tuples
     into a 2-D numpy array [lines, pixels].
 
-    Simple algorithm:
-      - a rising vsync starts a new frame (we just take the first one)
-      - each hsync pulse starts a new line
-      - luma samples when no sync bits are asserted are treated as pixels
+    Algorithm:
+      - Each colorburst trigger (trigger=1) indicates the end of colorburst and start of active video
+      - When trigger goes high, start collecting pixels for a new line
+      - Collect exactly pixels_per_line pixels per line (421 for NTSC)
+      - Collect exactly num_lines lines (240 for NTSC active video)
     """
 
     lines = []
     cur_line = []
+    collecting = False  # Are we currently collecting pixels for a line?
 
-    in_frame = False
-    prev_vsync = 0
-
-    for interlace, vsync, hsync, luma in samples:
-        # detect start of a frame on vsync rising edge
-        if vsync and not prev_vsync:
-            if in_frame:
-                # second vsync -> end of first frame
-                break
-            in_frame = True
-            cur_line = []
-            lines = []
-            prev_vsync = vsync
-            continue
-
-        prev_vsync = vsync
-
-        if not in_frame:
-            continue
-
-        # start a new line on hsync assertion
-        if hsync:
-            if cur_line:
+    for trigger, oddeven, state, pixel in samples:
+        # Detect rising edge of colorburst trigger - marks start of active video line
+        if trigger:
+            # If we were collecting, save the previous line (truncate/pad to pixels_per_line)
+            if collecting:
+                # Truncate or pad to exactly pixels_per_line
+                if len(cur_line) > pixels_per_line:
+                    cur_line = cur_line[:pixels_per_line]
+                elif len(cur_line) < pixels_per_line:
+                    cur_line.extend([0] * (pixels_per_line - len(cur_line)))
                 lines.append(cur_line)
+                
+                # Stop if we have enough lines
+                if len(lines) >= num_lines:
+                    break
+            
+            # Start collecting pixels for new line
             cur_line = []
+            collecting = True
+            # Don't add the trigger sample itself as a pixel
             continue
 
-        # regular pixel sample (no sync bits set)
-        if not vsync and not hsync:
-            cur_line.append(luma)
+        # Collect pixels when we're in collecting mode and in valid decode states
+        # Only collect up to pixels_per_line pixels per line
+        if collecting and state >= 2:
+            if len(cur_line) < pixels_per_line:
+                cur_line.append(pixel)
+            # If we've collected enough pixels, wait for next trigger
+            # (but keep collecting flag set so we save the line on next trigger)
 
-        if len(lines) >= max_lines:
-            break
-
-    # push last line
-    if cur_line:
+    # Push last line if we were still collecting and need more lines
+    if collecting and cur_line and len(lines) < num_lines:
+        # Truncate or pad to exactly pixels_per_line
+        if len(cur_line) > pixels_per_line:
+            cur_line = cur_line[:pixels_per_line]
+        elif len(cur_line) < pixels_per_line:
+            cur_line.extend([0] * (pixels_per_line - len(cur_line)))
         lines.append(cur_line)
 
+    # Create image with exact dimensions
     if not lines:
-        return np.zeros((1, 1), dtype=np.uint8)
+        return np.zeros((num_lines, pixels_per_line), dtype=np.uint8)
 
-    # make rectangular image: pad/truncate each line to same width
-    width = max(len(line) for line in lines)
-    img = np.zeros((len(lines), width), dtype=np.uint8)
+    # Ensure we have exactly num_lines (pad with black lines if needed)
+    while len(lines) < num_lines:
+        lines.append([0] * pixels_per_line)
+    
+    # Truncate if we have too many lines
+    lines = lines[:num_lines]
+    
+    # Create image - each line should already be exactly pixels_per_line
+    img = np.zeros((num_lines, pixels_per_line), dtype=np.uint8)
     for i, line in enumerate(lines):
-        n = min(len(line), width)
-        img[i, :n] = line[:n]
+        n = min(len(line), pixels_per_line)
+        if n > 0:
+            img[i, :n] = line[:n]
 
     return img
 
@@ -392,19 +403,21 @@ async def test_top(dut):
         while not stop_monitoring:
             await RisingEdge(dut.m00_axis_aclk)
             if dut.m00_axis_tvalid.value and dut.m00_axis_tready.value:
-                raw = dut.m00_axis_tdata.value
+                raw = int(dut.m00_axis_tdata.value)
 
                 pixel = raw & 0xFF
                 state = (raw >> 8) & 7
                 oddeven = (raw >> 11) & 1
                 trigger = (raw >> 12) & 1
-                # Only append when not in IDLE (0) or FRAME_SYNC (1) states
+                
+                # Collect all samples except IDLE (0) and FRAME_SYNC (1) states
+                # This includes trigger events which mark the start of lines
                 if state != 0 and state != 1:
                     samples.append((trigger, oddeven, state, pixel))
                     sample_count += 1
                     # Log first few samples and then every 1000th sample
-                    # if sample_count <= 5 or sample_count % 1000 == 0:
-                    #     dut._log.info(f"Sample {sample_count}: pixel={pixel}, state={state}, oddeven={oddeven}, trigger={trigger}")
+                    if sample_count <= 10 or sample_count % 1000 == 0:
+                        dut._log.info(f"Sample {sample_count}: pixel={pixel}, state={state}, oddeven={oddeven}, trigger={trigger}")
 
     watch_task = cocotb.start_soon(watch_m00())
 
@@ -427,14 +440,29 @@ async def test_top(dut):
     dut._log.info(f"Test completed. Collected {len(samples)} samples from m00_axis output.")
 
     # now samples[] is filled – build and plot a frame:
-    frame = build_frame_from_samples(samples)
-    np.save("frame.npy", frame)  # if you want to inspect later
-    plt.imshow(frame, cmap="gray", vmin=0, vmax=255)
-    plt.title("Captured frame")
-    plt.savefig("frame.png")
-    # # print("HIIIIIII")
-    # construct_frame(samples)
-    # plot_frames(frames)
+    if len(samples) > 0:
+        dut._log.info(f"Building frame from {len(samples)} samples...")
+        # NTSC active video: 240 lines x 421 pixels
+        frame = build_frame_from_samples(samples, num_lines=240, pixels_per_line=421)
+        dut._log.info(f"Frame shape: {frame.shape}, dtype: {frame.dtype}")
+        dut._log.info(f"Frame pixel range: [{frame.min()}, {frame.max()}]")
+        
+        # Save frame as numpy array
+        output_path = proj_path / "sim_build" / "frame.npy"
+        np.save(str(output_path), frame)
+        dut._log.info(f"Saved frame to {output_path}")
+        
+        # Create and save image
+        plt.figure(figsize=(12, 8))
+        plt.imshow(frame, cmap="gray", vmin=0, vmax=255, aspect='auto')
+        plt.title(f"Captured NTSC Frame ({frame.shape[0]} lines x {frame.shape[1]} pixels)")
+        plt.colorbar(label='Luminance')
+        output_img_path = proj_path / "sim_build" / "frame.png"
+        plt.savefig(str(output_img_path), dpi=150, bbox_inches='tight')
+        dut._log.info(f"Saved frame image to {output_img_path}")
+        plt.close()
+    else:
+        dut._log.warning("No samples collected! Cannot build frame.")
 
 
 
