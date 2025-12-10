@@ -33,7 +33,7 @@ module top #
     assign m00_axis_tlast = tlast_reg;
                             
     logic [18:0] count;
-    localparam curr_count = 19'd262143;  // 2^18 - 1
+    localparam curr_count = 19'd65535;  // 2^16 - 1
     
     
     always @(posedge s00_axis_aclk)begin
@@ -55,7 +55,7 @@ module top #
        end
     end
 
-    assign s00_axis_tready = m00_axis_tready;
+    //assign s00_axis_tready = m00_axis_tready;
 
     // Split the incoming 32-bit data stream into two 16-bit signed integer data streams.
     logic signed [15:0] adc_data_real;
@@ -129,8 +129,8 @@ module top #
         .s00_axis_tvalid(s00_axis_tvalid),
         .s00_axis_tdata({s00_axis_tdata[31:16], s00_axis_tdata[15:0]}), // 16-bit real, 16-bit imaginary
         .s00_axis_tstrb(4'b1111),
-        .s00_axis_tready(),
-        .m00_axis_tready(1'b1),
+        .s00_axis_tready(s00_axis_tready),
+        .m00_axis_tready(s00_tready_sync),
         .m00_axis_tvalid(cordic_tvalid),
         .m00_axis_tlast(cordic_tlast),
         .m00_axis_tdata(cordic_tdata),
@@ -145,6 +145,7 @@ module top #
     logic sync_tlast;
     logic [31:0] sync_tdata;
     logic sync_tstrb;
+    logic sync_tready;
     sync_detector_axis sync_detect_0 (
         .s00_axis_aclk(s00_axis_aclk),
         .s00_axis_aresetn(s00_axis_aresetn),
@@ -153,7 +154,7 @@ module top #
         .s00_axis_tdata(cordic_magnitude),
         .s00_axis_tstrb(2'b11),
         .s00_axis_tready(s00_tready_sync),
-        .m00_axis_tready(m00_axis_tready), // Connect to DMA ready to propagate backpressure
+        .m00_axis_tready(sync_tready), // Connect to DMA ready to propagate backpressure
         .m00_axis_tvalid(sync_tvalid),
         .m00_axis_tlast(sync_tlast),
         .m00_axis_tdata(sync_tdata),
@@ -186,6 +187,7 @@ module top #
         // .s00_axis_tdata({16'b0, cordic_magnitude}),
         .s00_axis_tdata(sync_tdata),
         .s00_axis_tstrb(4'b1111),
+        .s00_axis_tready(sync_tready),
         //threshold inputs
         //.black_level(colorburst_black_ref), // NOTE: if not working hardcode using "black_level_default" from MMIO
         .black_level(black_level_default),//"black_level_default" from MMIO TODO CHANGE TO 8BITS IN VIDEO DATA DECODER
