@@ -384,10 +384,12 @@ async def test_top(dut):
 
     samples = []
     frames = []
+    stop_monitoring = False
 
-    # 2) monitor m00_axis_tdata and print fields on valid handshake
+    # 2) monitor m00_axis_tdata and collect samples
     async def watch_m00():
-        while True:
+        sample_count = 0
+        while not stop_monitoring:
             await RisingEdge(dut.m00_axis_aclk)
             if dut.m00_axis_tvalid.value and dut.m00_axis_tready.value:
                 raw = dut.m00_axis_tdata.value
@@ -396,17 +398,15 @@ async def test_top(dut):
                 state = (raw >> 8) & 7
                 oddeven = (raw >> 11) & 1
                 trigger = (raw >> 12) & 1
-                samples = [] # THEN samples reset
-                while (state != 0 and state != 1): # dont append anything when in IDLE or FRAME_SYNC
-                    pixel = raw & 0xFF
-                    state = (raw >> 8) & 7
-                    oddeven = raw >> 11 & 1
-                    trigger = raw >> 12 & 1
+                # Only append when not in IDLE (0) or FRAME_SYNC (1) states
+                if state != 0 and state != 1:
                     samples.append((trigger, oddeven, state, pixel))
-                frames.append(construct_frame(samples))
+                    sample_count += 1
+                    # Log first few samples and then every 1000th sample
+                    if sample_count <= 5 or sample_count % 1000 == 0:
+                        dut._log.info(f"Sample {sample_count}: pixel={pixel}, state={state}, oddeven={oddeven}, trigger={trigger}")
 
-    cocotb.start_soon(watch_m00())
-    # cocotb.start_soon(collect_frames())
+    watch_task = cocotb.start_soon(watch_m00())
 
     # Drive the AXIS input
     data = {'type': 'write_burst', "contents": {"data": packed_data}}
@@ -414,18 +414,27 @@ async def test_top(dut):
     pause = {"type": "pause", "duration": 1}
     ind.append(pause)
 
-    # Let the design run long enough to chew through all samples
-    await ClockCycles(dut.s00_axis_aclk, len(real_array) + 200)
+    # Let the design run long enough to process all input samples
+    # Add extra cycles to allow pipeline to flush
+    num_cycles = len(real_array) + 1000
+    dut._log.info(f"Running simulation for {num_cycles} clock cycles to process {len(real_array)} input samples")
+    await ClockCycles(dut.s00_axis_aclk, num_cycles)
+    
+    # Stop monitoring
+    stop_monitoring = True
+    await ClockCycles(dut.s00_axis_aclk, 10)  # Give a few cycles for the coroutine to finish
+    
+    dut._log.info(f"Test completed. Collected {len(samples)} samples from m00_axis output.")
 
     # now samples[] is filled – build and plot a frame:
-    # frame = build_frame_from_samples(samples)
-    # np.save("frame.npy", frame)  # if you want to inspect later
-    # plt.imshow(frame, cmap="gray", vmin=0, vmax=255)
-    # plt.title("Captured frame")
-    # plt.savefig("frame.png")
-    # print("HIIIIIII")
-    construct_frame(samples)
-    plot_frames(frames)
+    frame = build_frame_from_samples(samples)
+    np.save("frame.npy", frame)  # if you want to inspect later
+    plt.imshow(frame, cmap="gray", vmin=0, vmax=255)
+    plt.title("Captured frame")
+    plt.savefig("frame.png")
+    # # print("HIIIIIII")
+    # construct_frame(samples)
+    # plot_frames(frames)
 
 
 
