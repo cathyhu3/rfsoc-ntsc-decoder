@@ -42,7 +42,7 @@ module top #
            tlast_reg <= 0;
        end else begin
            tlast_reg <= 0;
-           if (m00_axis_tvalid) begin
+           //if (m00_axis_tvalid) begin
                if (count == (curr_count - 1)) begin
                    tlast_reg <= 1;
                    count <= count + 1;
@@ -51,7 +51,7 @@ module top #
                end else begin
                    count <= count + 1;
                end
-           end
+           //end
        end
     end
 
@@ -86,16 +86,7 @@ module top #
     //odd/even threshold
     logic [7:0] oddeven_th_threshold;
 
-    // logic [7:0] hsync_threshold_upper_fp;
-    // logic [7:0] hsync_threshold_lower_st;
-    // logic [7:0] hsync_threshold_upper_st;
-    // logic [7:0] hsync_threshold_lower_bp;
-    // logic [7:0] hsync_threshold_upper_bp;
-    // logic [7:0] hsync_threshold_lower_eq;
-    // logic [7:0] hsync_threshold_upper_eq;
-
-
-        // VSYNC THRESHOLDS
+    // VSYNC THRESHOLDS
     assign vsync_lb_threshold          = MMIO_thresholds[7:0];        // ~172
     assign vsync_ub_threshold          = MMIO_thresholds[15:8];       // ~185
     assign vsync_samples_lb_threshold  = MMIO_thresholds[23:16];      // ~160
@@ -176,8 +167,8 @@ module top #
 
     );
 
-    logic [15:0] colorburst_black_ref; //black level from hsync
-    assign colorburst_black_ref = sync_tdata[15:0];
+    // logic [15:0] colorburst_black_ref; //black level from hsync
+    // assign colorburst_black_ref = sync_tdata[15:0];
      // State machine that starts decoding pixels from the magnitude data
     video_data_decoder #(.ACTIVE_SAMPLES_PER_LINE(421)) video_data_decoder_top(
         .s00_axis_aclk(s00_axis_aclk),
