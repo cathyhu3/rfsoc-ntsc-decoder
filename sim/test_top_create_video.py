@@ -403,8 +403,8 @@ async def test_top(dut):
                     samples.append((trigger, oddeven, state, pixel))
                     sample_count += 1
                     # Log first few samples and then every 1000th sample
-                    if sample_count <= 5 or sample_count % 1000 == 0:
-                        dut._log.info(f"Sample {sample_count}: pixel={pixel}, state={state}, oddeven={oddeven}, trigger={trigger}")
+                    # if sample_count <= 5 or sample_count % 1000 == 0:
+                    #     dut._log.info(f"Sample {sample_count}: pixel={pixel}, state={state}, oddeven={oddeven}, trigger={trigger}")
 
     watch_task = cocotb.start_soon(watch_m00())
 
