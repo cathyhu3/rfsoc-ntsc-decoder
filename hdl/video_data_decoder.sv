@@ -53,7 +53,7 @@ module video_data_decoder #
 
     // AXI4-Stream handshake signals
     assign s00_axis_tready = m00_axis_tready;
-    assign m00_axis_tdata = {19'b0, trigger, oddeven, state_val, y};
+    assign m00_axis_tdata = {18'b0, trigger, oddeven, state_val, y};
 
     // FSM stuff
     typedef enum logic {IDLE, DECODE} fsm_state_t;
@@ -95,7 +95,7 @@ module video_data_decoder #
                             line_sample_count <= line_sample_count + 1;     // increment counter
                             trigger <= 1;  
                             if (magnitude < black_level && magnitude > white_level) begin
-                                y <= (256 * (magnitude - white_level)) / (black_level - white_level); // map cordic magnitude to 8-bit (0-255)
+                                y <= 256 * (magnitude - white_level) / (black_level - white_level); // map cordic magnitude to 8-bit (0-255)
                             end
                             else begin
                                 y <= 0; // set to black
@@ -117,7 +117,7 @@ module video_data_decoder #
                         if (line_sample_count < ACTIVE_SAMPLES_PER_LINE-1) begin
                             line_sample_count <= line_sample_count + 1;
                             if (magnitude < black_level && magnitude > white_level) begin
-                                y <= (256 * (magnitude - white_level)) / (black_level - white_level); // map cordic magnitude to 8-bit (0-255)
+                                y <= 256 * (magnitude - white_level) / (black_level - white_level); // map cordic magnitude to 8-bit (0-255)
                             end
                             else begin
                                 y <= 0; // set to black

@@ -68,6 +68,10 @@ module sync_detector_axis #(
     // // output logic coloburst_pulse,
     // // output logic [15:0] magnitude
 );
+// Debug signal to verify cb_trigger is being assigned correctly
+// Uncomment to add to waveform for debugging
+// (* keep *) logic debug_cb_trigger_bit20;
+// assign debug_cb_trigger_bit20 = m00_axis_tdata[20];
 // sim stuff
 // assign colorburst_pulse = cb_trigger;
 // assign odd_even = odd_even_interlace_parity;
@@ -166,7 +170,13 @@ end
 
 
 // STATE MACHINE ///////////////////////////////////////////////////////
-enum {IDLE, FRAME_SYNC, EVENODD, COLORBURST, CB_TRIGGER, DECODE_LINE} state;
+logic [2:0] state;
+localparam IDLE = 0;
+localparam FRAME_SYNC = 1;
+localparam EVENODD = 2;
+localparam COLORBURST = 3;
+localparam CB_TRIGGER = 4;
+localparam DECODE_LINE = 5;
 
 logic odd_even_interlace_parity;
 logic check_evenodd;
@@ -180,6 +190,7 @@ always_ff @(posedge s00_axis_aclk) begin
         state <= IDLE;
         cb_sample_counter <= 0;
         cb_trigger <= 0;
+        odd_even_interlace_parity <= 0;
     end else begin
         if (s00_axis_tvalid && s00_axis_tready) begin
             past_hsync_trigger <= hsync_trigger;
@@ -234,6 +245,9 @@ always_ff @(posedge s00_axis_aclk) begin
 end
 
 // AXIS HANDSHAKE STUFF ///////////////////////////////////////////////////////
+// Combinational assign - should immediately reflect cb_trigger value
+// Bit breakdown: [31:21] = 11'b0, [20] = cb_trigger, [19] = odd_even_interlace_parity, 
+//                [18:16] = state, [15:0] = magnitude
 assign m00_axis_tdata = {11'b0, cb_trigger, odd_even_interlace_parity, state, magnitude};
 
 assign s00_axis_tready = m00_axis_tready;
