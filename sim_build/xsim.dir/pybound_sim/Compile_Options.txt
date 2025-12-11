@@ -1,0 +1,1 @@
+-top "top" -snapshot "pybound_sim" "work.cocotb_vivado_dump" -L "xpm" -L "secureip" -dll -debug "wave" 

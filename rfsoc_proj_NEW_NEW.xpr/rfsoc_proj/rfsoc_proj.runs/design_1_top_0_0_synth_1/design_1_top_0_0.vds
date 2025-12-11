@@ -1,0 +1,521 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Wed May 21 22:58:25 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Wed Dec 10 13:40:25 2025
+# Process ID         : 1506620
+# Current directory  : /home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.runs/design_1_top_0_0_synth_1
+# Command line       : vivado -log design_1_top_0_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source design_1_top_0_0.tcl
+# Log file           : /home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.runs/design_1_top_0_0_synth_1/design_1_top_0_0.vds
+# Journal file       : /home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.runs/design_1_top_0_0_synth_1/vivado.jou
+# Running On         : eecs-digital-42
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.3 LTS
+# Processor Detail   : AMD Ryzen 7 5825U with Radeon Graphics
+# CPU Frequency      : 3548.938 MHz
+# CPU Physical cores : 8
+# CPU Logical cores  : 16
+# Host memory        : 29342 MB
+# Swap memory        : 8589 MB
+# Total Virtual      : 37932 MB
+# Available Virtual  : 11448 MB
+#-----------------------------------------------------------
+source design_1_top_0_0.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.ipdefs/iq_framer_1_0'.
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/thagenlo/Desktop/top_ip'.
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.ipdefs/mmio_interface_1_0'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/2025.1/Vivado/data/ip'.
+Command: synth_design -top design_1_top_0_0 -part xczu48dr-ffvg1517-2-e -incremental_mode off -mode out_of_context
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xczu48dr'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xczu48dr'
+INFO: [Device 21-403] Loading part xczu48dr-ffvg1517-2-e
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 1506691
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2799.543 ; gain = 343.859 ; free physical = 2881 ; free virtual = 9003
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'design_1_top_0_0' [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/synth/design_1_top_0_0.v:53]
+INFO: [Synth 8-6157] synthesizing module 'top_wrapper' [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/top_wrapper.v:4]
+INFO: [Synth 8-6157] synthesizing module 'top' [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/top.sv:4]
+INFO: [Synth 8-6157] synthesizing module 'cordic' [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:3]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[0].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:56]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[0].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:62]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[1].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:56]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[1].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:62]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[2].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:56]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[2].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:62]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[3].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:56]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[3].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:62]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[4].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:56]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[4].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:62]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[5].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:56]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[5].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:62]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[6].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:56]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[6].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:62]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[7].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:56]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[7].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:62]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[8].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:56]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[8].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:62]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[9].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:56]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[9].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:62]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[10].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:56]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[10].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:62]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[11].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:56]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[11].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:62]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[12].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:56]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[12].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:62]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[13].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:56]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[13].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:62]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[14].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:56]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[14].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:62]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[15].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:56]
+WARNING: [Synth 8-6104] Input port 'cordic_iteration[15].x' has an internal driver [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:62]
+INFO: [Synth 8-6155] done synthesizing module 'cordic' (0#1) [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'sync_detector_axis' [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/sync_detector_axis.sv:7]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/sync_detector_axis.sv:150]
+INFO: [Synth 8-155] case statement is not full and has no default [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/sync_detector_axis.sv:197]
+INFO: [Synth 8-6155] done synthesizing module 'sync_detector_axis' (0#1) [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/sync_detector_axis.sv:7]
+WARNING: [Synth 8-7071] port 'm00_axis_aclk' of module 'sync_detector_axis' is unconnected for instance 'sync_detect_0' [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/top.sv:136]
+WARNING: [Synth 8-7071] port 'm00_axis_aresetn' of module 'sync_detector_axis' is unconnected for instance 'sync_detect_0' [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/top.sv:136]
+WARNING: [Synth 8-7023] instance 'sync_detect_0' of module 'sync_detector_axis' has 24 connections declared, but only 22 given [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/top.sv:136]
+INFO: [Synth 8-6157] synthesizing module 'video_data_decoder' [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/video_data_decoder.sv:4]
+INFO: [Synth 8-226] default block is never used [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/video_data_decoder.sv:92]
+INFO: [Synth 8-6155] done synthesizing module 'video_data_decoder' (0#1) [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/video_data_decoder.sv:4]
+INFO: [Synth 8-6155] done synthesizing module 'top' (0#1) [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/top.sv:4]
+INFO: [Synth 8-6155] done synthesizing module 'top_wrapper' (0#1) [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/top_wrapper.v:4]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_top_0_0' (0#1) [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/synth/design_1_top_0_0.v:53]
+WARNING: [Synth 8-6014] Unused sequential element cordic_iteration[15].y_i_reg[16] was removed.  [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:123]
+WARNING: [Synth 8-7129] Port s00_axis_tvalid in module video_data_decoder is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[31] in module video_data_decoder is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[30] in module video_data_decoder is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[29] in module video_data_decoder is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[28] in module video_data_decoder is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[27] in module video_data_decoder is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[26] in module video_data_decoder is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[25] in module video_data_decoder is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[24] in module video_data_decoder is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[23] in module video_data_decoder is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[22] in module video_data_decoder is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tdata[21] in module video_data_decoder is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_aclk in module sync_detector_axis is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_aresetn in module sync_detector_axis is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_aresetn in module cordic is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[3] in module cordic is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[2] in module cordic is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[1] in module cordic is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[0] in module cordic is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tlast in module top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[3] in module top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[2] in module top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[1] in module top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[0] in module top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_aclk in module top is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_aresetn in module top is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2886.480 ; gain = 430.797 ; free physical = 2783 ; free virtual = 8906
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2901.324 ; gain = 445.641 ; free physical = 2783 ; free virtual = 8906
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2901.324 ; gain = 445.641 ; free physical = 2783 ; free virtual = 8906
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 2901.324 ; gain = 0.000 ; free physical = 2783 ; free virtual = 8907
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc] for cell 'inst'
+WARNING: [Vivado 12-584] No ports matched 'led[0]'. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:2]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:2]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'led[0]'. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:3]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:3]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'led[1]'. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:5]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:5]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'led[1]'. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:6]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:6]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'led[2]'. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:8]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:8]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'led[2]'. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:9]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:9]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'led[3]'. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:11]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:11]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'led[3]'. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:12]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:12]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'sw[0]'. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:15]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:15]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'sw[0]'. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:16]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:16]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'sw[1]'. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:18]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:18]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'sw[1]'. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:19]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:19]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'sw[2]'. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:21]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:21]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'sw[2]'. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:22]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:22]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'sw[3]'. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:24]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:24]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+WARNING: [Vivado 12-584] No ports matched 'sw[3]'. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:25]
+CRITICAL WARNING: [Common 17-55] 'set_property' expects at least one object. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc:25]
+Resolution: If [get_<value>] was used to populate the object, check to make sure this command returns at least one valid object.
+Finished Parsing XDC File [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ip/design_1_top_0_0/src/base.xdc] for cell 'inst'
+Parsing XDC File [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.runs/design_1_top_0_0_synth_1/dont_touch.xdc]
+Finished Parsing XDC File [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.runs/design_1_top_0_0_synth_1/dont_touch.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3013.191 ; gain = 0.000 ; free physical = 2782 ; free virtual = 8905
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.02 . Memory (MB): peak = 3032.004 ; gain = 18.777 ; free physical = 2782 ; free virtual = 8905
+INFO: [Designutils 20-5008] Incremental synthesis strategy off
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 3032.004 ; gain = 576.320 ; free physical = 2794 ; free virtual = 8917
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xczu48dr-ffvg1517-2-e
+INFO: [Synth 8-6742] Reading net delay rules and data
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 3040.008 ; gain = 584.324 ; free physical = 2794 ; free virtual = 8917
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 3040.008 ; gain = 584.324 ; free physical = 2794 ; free virtual = 8917
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'hsync_counter_state_reg' in module 'sync_detector_axis'
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'sync_detector_axis'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                      GO |                                0 | 00000000000000000000000000000001
+                   RESET |                                1 | 00000000000000000000000000000000
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'hsync_counter_state_reg' using encoding 'sequential' in module 'sync_detector_axis'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    IDLE |                              000 |                              000
+              FRAME_SYNC |                              001 |                              001
+                 EVENODD |                              010 |                              010
+              COLORBURST |                              011 |                              011
+              CB_TRIGGER |                              100 |                              100
+             DECODE_LINE |                              101 |                              101
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'sync_detector_axis'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 3040.008 ; gain = 584.324 ; free physical = 2794 ; free virtual = 8919
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input   33 Bit       Adders := 60    
+	   3 Input   33 Bit       Adders := 29    
+	   2 Input   19 Bit       Adders := 1     
+	   2 Input   16 Bit       Adders := 3     
+	   2 Input    9 Bit       Adders := 1     
+	   2 Input    8 Bit       Adders := 4     
+	   2 Input    4 Bit       Adders := 1     
++---Registers : 
+	               33 Bit    Registers := 46    
+	               19 Bit    Registers := 1     
+	                9 Bit    Registers := 1     
+	                8 Bit    Registers := 4     
+	                4 Bit    Registers := 2     
+	                3 Bit    Registers := 2     
+	                1 Bit    Registers := 59    
++---Muxes : 
+	   3 Input   33 Bit        Muxes := 2     
+	   2 Input   33 Bit        Muxes := 73    
+	   2 Input   32 Bit        Muxes := 1     
+	   2 Input   16 Bit        Muxes := 4     
+	   2 Input   14 Bit        Muxes := 2     
+	   2 Input   13 Bit        Muxes := 1     
+	   2 Input   12 Bit        Muxes := 1     
+	   2 Input   11 Bit        Muxes := 1     
+	   2 Input   10 Bit        Muxes := 1     
+	   2 Input    9 Bit        Muxes := 1     
+	   2 Input    8 Bit        Muxes := 9     
+	   2 Input    7 Bit        Muxes := 1     
+	   2 Input    6 Bit        Muxes := 1     
+	   2 Input    5 Bit        Muxes := 1     
+	   2 Input    4 Bit        Muxes := 3     
+	   6 Input    4 Bit        Muxes := 1     
+	   6 Input    3 Bit        Muxes := 1     
+	   2 Input    3 Bit        Muxes := 3     
+	   7 Input    3 Bit        Muxes := 1     
+	   2 Input    2 Bit        Muxes := 2     
+	   2 Input    1 Bit        Muxes := 19    
+	   6 Input    1 Bit        Muxes := 7     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 4272 (col length:192)
+BRAMs: 2160 (col length: RAMB18 192 RAMB36 96)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+WARNING: [Synth 8-3936] Found unconnected internal register 'cordic_iteration[15].x_i_reg[16]' and it is trimmed from '33' to '32' bits. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:124]
+WARNING: [Synth 8-3936] Found unconnected internal register 'cordic_iteration[14].x_i_reg[15]' and it is trimmed from '33' to '32' bits. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:124]
+WARNING: [Synth 8-3936] Found unconnected internal register 'cordic_iteration[15].z_i_reg[16]' and it is trimmed from '33' to '16' bits. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:126]
+WARNING: [Synth 8-3936] Found unconnected internal register 'cordic_iteration[14].z_i_reg[15]' and it is trimmed from '33' to '16' bits. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:126]
+WARNING: [Synth 8-3936] Found unconnected internal register 'cordic_iteration[13].z_i_reg[14]' and it is trimmed from '33' to '16' bits. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:126]
+WARNING: [Synth 8-3936] Found unconnected internal register 'cordic_iteration[12].z_i_reg[13]' and it is trimmed from '33' to '16' bits. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:126]
+WARNING: [Synth 8-3936] Found unconnected internal register 'cordic_iteration[11].z_i_reg[12]' and it is trimmed from '33' to '16' bits. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:126]
+WARNING: [Synth 8-3936] Found unconnected internal register 'cordic_iteration[10].z_i_reg[11]' and it is trimmed from '33' to '16' bits. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:126]
+WARNING: [Synth 8-3936] Found unconnected internal register 'cordic_iteration[9].z_i_reg[10]' and it is trimmed from '33' to '16' bits. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:126]
+WARNING: [Synth 8-3936] Found unconnected internal register 'cordic_iteration[8].z_i_reg[9]' and it is trimmed from '33' to '16' bits. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:126]
+WARNING: [Synth 8-3936] Found unconnected internal register 'cordic_iteration[7].z_i_reg[8]' and it is trimmed from '33' to '16' bits. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:126]
+WARNING: [Synth 8-3936] Found unconnected internal register 'cordic_iteration[6].z_i_reg[7]' and it is trimmed from '33' to '16' bits. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:126]
+WARNING: [Synth 8-3936] Found unconnected internal register 'cordic_iteration[5].z_i_reg[6]' and it is trimmed from '33' to '16' bits. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:126]
+WARNING: [Synth 8-3936] Found unconnected internal register 'cordic_iteration[4].z_i_reg[5]' and it is trimmed from '33' to '16' bits. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:126]
+WARNING: [Synth 8-3936] Found unconnected internal register 'cordic_iteration[3].z_i_reg[4]' and it is trimmed from '33' to '16' bits. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:126]
+WARNING: [Synth 8-3936] Found unconnected internal register 'cordic_iteration[2].z_i_reg[3]' and it is trimmed from '33' to '16' bits. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:126]
+WARNING: [Synth 8-3936] Found unconnected internal register 'cordic_iteration[1].z_i_reg[2]' and it is trimmed from '33' to '16' bits. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:126]
+WARNING: [Synth 8-3936] Found unconnected internal register 'cordic_iteration[0].z_i_reg[1]' and it is trimmed from '33' to '16' bits. [/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.gen/sources_1/bd/design_1/ipshared/bc9d/src/cordic.sv:126]
+DSP Report: Generating DSP y_i_reg[0], operation Mode is: ((A:0x9b74)*B)'.
+DSP Report: register y_i_reg[0] is absorbed into DSP y_i_reg[0].
+DSP Report: operator y_i_reg[0]0 is absorbed into DSP y_i_reg[0].
+DSP Report: Generating DSP x_i_reg[0], operation Mode is: ((A:0x9b74)*B)'.
+DSP Report: register x_i_reg[0] is absorbed into DSP x_i_reg[0].
+DSP Report: operator x_i_reg[0]0 is absorbed into DSP x_i_reg[0].
+DSP Report: Generating DSP cordic_iteration[0].y_i_reg[1], operation Mode is: (C+((A:0x9b74)*B)') OR (-C+((A:0x9b74)*B)'+1-1).
+DSP Report: register cordic_iteration[0].y_i_reg[1] is absorbed into DSP cordic_iteration[0].y_i_reg[1].
+DSP Report: register y_i_reg[0] is absorbed into DSP cordic_iteration[0].y_i_reg[1].
+DSP Report: operator cordic_iteration[0].y_i_reg[1]0 is absorbed into DSP cordic_iteration[0].y_i_reg[1].
+DSP Report: operator cordic_iteration[0].y_i_reg[1]0 is absorbed into DSP cordic_iteration[0].y_i_reg[1].
+DSP Report: operator y_i_reg[0]0 is absorbed into DSP cordic_iteration[0].y_i_reg[1].
+DSP Report: Generating DSP cordic_iteration[0].x_i_reg[1], operation Mode is: (C+((A:0x9b74)*B)'+CarryIn)'.
+DSP Report: register cordic_iteration[0].x_i_reg[1] is absorbed into DSP cordic_iteration[0].x_i_reg[1].
+DSP Report: register x_i_reg[0] is absorbed into DSP cordic_iteration[0].x_i_reg[1].
+DSP Report: operator cordic_iteration[0].x_i_reg[1]0 is absorbed into DSP cordic_iteration[0].x_i_reg[1].
+DSP Report: operator x_i_reg[0]0 is absorbed into DSP cordic_iteration[0].x_i_reg[1].
+WARNING: [Synth 8-7129] Port s00_axis_aresetn in module cordic is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[3] in module cordic is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[2] in module cordic is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[1] in module cordic is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[0] in module cordic is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[3] in module top_wrapper is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[2] in module top_wrapper is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[1] in module top_wrapper is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tstrb[0] in module top_wrapper is either unconnected or has no load
+WARNING: [Synth 8-7129] Port s00_axis_tlast in module top_wrapper is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_aclk in module top_wrapper is either unconnected or has no load
+WARNING: [Synth 8-7129] Port m00_axis_aresetn in module top_wrapper is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 3040.008 ; gain = 584.324 ; free physical = 2809 ; free virtual = 8934
+---------------------------------------------------------------------------------
+ Sort Area is  cordic_iteration[0].y_i_reg[1]_3 : 0 0 : 1259 1259 : Used 1 time 0
+ Sort Area is  cordic_iteration[0].x_i_reg[1]_5 : 0 0 : 997 997 : Used 1 time 0
+ Sort Area is  x_i_reg[0]_2 : 0 0 : 866 866 : Used 1 time 0
+ Sort Area is  y_i_reg[0]_0 : 0 0 : 866 866 : Used 1 time 0
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+DSP: Preliminary Mapping Report (see note below. The ' indicates corresponding REG is set)
++------------+-------------------------------------------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name | DSP Mapping                                     | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++------------+-------------------------------------------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|cordic      | ((A:0x9b74)*B)'                                 | 16     | 17     | -      | -      | 33     | 0    | 0    | -    | -    | -     | 1    | 0    | 
+|cordic      | ((A:0x9b74)*B)'                                 | 16     | 17     | -      | -      | 33     | 0    | 0    | -    | -    | -     | 1    | 0    | 
+|cordic      | (C+((A:0x9b74)*B)') OR (-C+((A:0x9b74)*B)'+1-1) | 16     | 17     | 33     | -      | 33     | 0    | 0    | 0    | -    | -     | 1    | 1    | 
+|cordic      | (C+((A:0x9b74)*B)'+CarryIn)'                    | 16     | 17     | 33     | -      | 33     | 0    | 0    | 0    | -    | -     | 1    | 1    | 
++------------+-------------------------------------------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+Note: The table above is a preliminary report that shows the DSPs inferred at the current stage of the synthesis flow. Some DSP may be reimplemented as non DSP primitives later in the synthesis flow. Multiple instantiated DSPs are reported only once.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 3503.551 ; gain = 1047.867 ; free physical = 2384 ; free virtual = 8509
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 3503.551 ; gain = 1047.867 ; free physical = 2376 ; free virtual = 8501
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:16 ; elapsed = 00:00:16 . Memory (MB): peak = 3528.582 ; gain = 1072.898 ; free physical = 2345 ; free virtual = 8470
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:17 ; elapsed = 00:00:18 . Memory (MB): peak = 3669.395 ; gain = 1213.711 ; free physical = 2232 ; free virtual = 8357
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:17 ; elapsed = 00:00:18 . Memory (MB): peak = 3669.395 ; gain = 1213.711 ; free physical = 2232 ; free virtual = 8357
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:17 ; elapsed = 00:00:18 . Memory (MB): peak = 3669.395 ; gain = 1213.711 ; free physical = 2232 ; free virtual = 8357
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:17 ; elapsed = 00:00:18 . Memory (MB): peak = 3669.395 ; gain = 1213.711 ; free physical = 2232 ; free virtual = 8357
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:17 ; elapsed = 00:00:18 . Memory (MB): peak = 3669.395 ; gain = 1213.711 ; free physical = 2232 ; free virtual = 8357
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:17 ; elapsed = 00:00:18 . Memory (MB): peak = 3669.395 ; gain = 1213.711 ; free physical = 2232 ; free virtual = 8357
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+
+Static Shift Register Report:
++------------+--------------------------------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+|Module Name | RTL Name                                               | Length | Width | Reset Signal | Pull out first Reg | Pull out last Reg | SRL16E | SRLC32E | 
++------------+--------------------------------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+|top_wrapper | my_top/my_cordic/cordic_iteration[15].tvalid_i_reg[16] | 17     | 1     | NO           | YES                | YES               | 1      | 0       | 
++------------+--------------------------------------------------------+--------+-------+--------------+--------------------+-------------------+--------+---------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+DSP Final Report (the ' indicates corresponding REG is set)
++------------+---------------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|Module Name | DSP Mapping         | A Size | B Size | C Size | D Size | P Size | AREG | BREG | CREG | DREG | ADREG | MREG | PREG | 
++------------+---------------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+|cordic      | (A*B)'              | 30     | 16     | -      | -      | 33     | 0    | 0    | -    | -    | -     | 0    | 1    | 
+|cordic      | (A*B)'              | 30     | 16     | -      | -      | 33     | 0    | 0    | -    | -    | -     | 0    | 1    | 
+|cordic      | Dynamic             | -      | -      | -      | -      | 33     | -    | -    | -    | -    | -     | 1    | 1    | 
+|cordic      | (C+(A*B)'+CARRYIN)' | 30     | 16     | 33     | -      | 33     | 0    | 0    | 0    | -    | -     | 1    | 1    | 
++------------+---------------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
+
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+----------------+------+
+|      |Cell            |Count |
++------+----------------+------+
+|1     |CARRY8          |   396|
+|2     |DSP_ALU         |     4|
+|4     |DSP_A_B_DATA    |     4|
+|5     |DSP_C_DATA      |     4|
+|6     |DSP_MULTIPLIER  |     4|
+|7     |DSP_M_DATA      |     4|
+|9     |DSP_OUTPUT      |     4|
+|10    |DSP_PREADD      |     4|
+|11    |DSP_PREADD_DATA |     4|
+|12    |LUT1            |  1108|
+|13    |LUT2            |   109|
+|14    |LUT3            |   920|
+|15    |LUT4            |   589|
+|16    |LUT5            |   371|
+|17    |LUT6            |    56|
+|18    |SRL16E          |     1|
+|19    |FDRE            |  1020|
++------+----------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:17 ; elapsed = 00:00:18 . Memory (MB): peak = 3669.395 ; gain = 1213.711 ; free physical = 2232 ; free virtual = 8357
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 31 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 3669.395 ; gain = 1083.031 ; free physical = 2232 ; free virtual = 8357
+Synthesis Optimization Complete : Time (s): cpu = 00:00:18 ; elapsed = 00:00:18 . Memory (MB): peak = 3669.395 ; gain = 1213.711 ; free physical = 2232 ; free virtual = 8357
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.03 . Memory (MB): peak = 3669.395 ; gain = 0.000 ; free physical = 2409 ; free virtual = 8534
+INFO: [Netlist 29-17] Analyzing 400 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+WARNING: [Netlist 29-101] Netlist 'design_1_top_0_0' is not ideal for floorplanning, since the cellview 'cordic' contains a large number of primitives.  Please consider enabling hierarchy in synthesis if you want to do floorplanning.
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3679.105 ; gain = 0.000 ; free physical = 2416 ; free virtual = 8541
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 4 instances were transformed.
+  DSP48E2 => DSP48E2 (DSP_ALU, DSP_A_B_DATA, DSP_C_DATA, DSP_MULTIPLIER, DSP_M_DATA, DSP_OUTPUT, DSP_PREADD, DSP_PREADD_DATA): 4 instances
+
+Synth Design complete | Checksum: c4b93c8
+INFO: [Common 17-83] Releasing license: Synthesis
+40 Infos, 110 Warnings, 16 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:25 ; elapsed = 00:00:24 . Memory (MB): peak = 3679.141 ; gain = 2114.059 ; free physical = 2411 ; free virtual = 8536
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 2760.520; main = 2760.520; forked = 260.445
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 4003.883; main = 3679.109; forked = 963.871
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3703.117 ; gain = 8.004 ; free physical = 2410 ; free virtual = 8536
+INFO: [Common 17-1381] The checkpoint '/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.runs/design_1_top_0_0_synth_1/design_1_top_0_0.dcp' has been generated.
+INFO: [runtcl-6] Synthesis results are not added to the cache due to CRITICAL_WARNING
+INFO: [Coretcl 2-1174] Renamed 5 cell refs.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3703.117 ; gain = 0.000 ; free physical = 2405 ; free virtual = 8535
+INFO: [Common 17-1381] The checkpoint '/home/thagenlo/Desktop/rfsoc_proj_NEW_NEW.xpr/rfsoc_proj/rfsoc_proj.runs/design_1_top_0_0_synth_1/design_1_top_0_0.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file design_1_top_0_0_utilization_synth.rpt -pb design_1_top_0_0_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Wed Dec 10 13:40:55 2025...

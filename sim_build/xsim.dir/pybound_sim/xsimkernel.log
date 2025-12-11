@@ -1,0 +1,7 @@
+Running: xsim.dir/pybound_sim/xsimk.so -nolog -wdb xsim.wdb -xsimdir 
+Design successfully loaded
+Design Loading Memory Usage: 205612 KB (Peak: 205612 KB)
+Design Loading CPU Usage: 800 ms
+Simulation completed
+Simulation Memory Usage: 1081900 KB (Peak: 1136908 KB)
+Simulation CPU Usage: 69550 ms

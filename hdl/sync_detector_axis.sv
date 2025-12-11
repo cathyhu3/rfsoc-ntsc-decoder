@@ -1,3 +1,6 @@
+`default_nettype none
+`timescale 1 ns / 1 ps
+
 /*
 two types of hsync:
 1. long hsync period after new frame (low sync, high sync, low sync)
@@ -36,7 +39,6 @@ module sync_detector_axis #(
     /*
     m00_axis_tdata = {11'b0, colorburst_trigger, evenodd, [2:0] state, [15:0] magnitude}
     */
-    input wire m00_axis_aclk, m00_axis_aresetn,
     input wire m00_axis_tready,
     output logic m00_axis_tvalid, m00_axis_tlast,
     output logic [C_M00_AXIS_TDATA_WIDTH-1:0] m00_axis_tdata,
@@ -58,7 +60,23 @@ module sync_detector_axis #(
     input wire [7:0] cb_samples_ub,
 
     // ODDEVEN THRESHOLD,
-    input wire [7:0] oddeven_th
+    input wire [7:0] oddeven_th,
+    
+    // debug signals
+    output logic [3:0] hsync_counter,
+    output logic past_hsync_trigger,
+    output logic vsync_trigger,
+    output logic hsync_trigger,
+    output logic in_hsync_range,
+    output logic [7:0] hsync_sample_counter,
+    output logic in_vsync_range,
+    output logic [7:0] vsync_sample_counter,
+    output logic in_cb_range,
+    output logic [7:0] cb_sample_counter,
+    output logic cb_trigger,
+    output logic [2:0] state
+    
+    
 
     // // simulation signals
     // output logic colorburst_pulse,
@@ -79,11 +97,11 @@ module sync_detector_axis #(
 
 // HARD-CODED THRESHOLDS FOR TESTING ///////////////////////////////////////////////////////
 // VSYNC
-localparam int VSYNC_LB                 = 172;
+localparam int VSYNC_LB                 = 169;
 localparam int VSYNC_UB                 = 185;
 localparam int VSYNC_SAMPLES_LB         = 160;
 // HYSNC
-localparam int HSYNC_LB                 = 182;
+localparam int HSYNC_LB                 = 180;
 localparam int HSYNC_UB                 = 199;
 localparam int HSYNC_SAMPLES_LB         = 35;
 // COLORBURST
@@ -94,19 +112,19 @@ localparam int CB_SAMPLES_LB            = 23;
 localparam int ODDEVEN_TH                = 85;
 
 // VSYNC
-logic in_vsync_range;
-logic [7:0] vsync_sample_counter;
-logic vsync_trigger;
+//logic in_vsync_range;
+//logic [7:0] vsync_sample_counter;
+//logic vsync_trigger;
 
 // HSYNC
-logic in_hsync_range;
-logic [7:0] hsync_sample_counter;
-logic hsync_trigger;
+//logic in_hsync_range;
+//logic [7:0] hsync_sample_counter;
+//logic hsync_trigger;
 
 // COLOBURST
-logic in_cb_range;
-logic [7:0] cb_sample_counter;
-logic cb_trigger; // cb trigger works differnetly because we want the trigger to occur exactly when the cb ends
+//logic in_cb_range;
+//logic [7:0] cb_sample_counter;
+//logic cb_trigger; // cb trigger works differnetly because we want the trigger to occur exactly when the cb ends
 
 
 logic [15:0] magnitude;
@@ -114,24 +132,24 @@ assign magnitude = s00_axis_tdata;
 
 // VSYNC AND HSYNC TRIGGERS ///////////////////////////////////////////////////////
 
-always_comb begin
-    in_vsync_range = (magnitude > vsync_lb && magnitude < vsync_ub);
-    in_hsync_range = (magnitude > hsync_lb && magnitude < hsync_ub);
-    in_cb_range = (magnitude > cb_lb && magnitude < cb_ub);
-end
+//always_comb begin
+//    in_vsync_range = (magnitude > vsync_lb && magnitude < vsync_ub);
+//    in_hsync_range = (magnitude > hsync_lb && magnitude < hsync_ub);
+//    in_cb_range = (magnitude > cb_lb && magnitude < cb_ub);
+//end
 
-assign vsync_trigger = (vsync_sample_counter > vsync_samples_lb); // not a single cycle high (doesn't have to be)
-assign hsync_trigger = (hsync_sample_counter > hsync_samples_lb); // single cycle high
+//assign vsync_trigger = (vsync_sample_counter > vsync_samples_lb); // not a single cycle high (doesn't have to be)
+//assign hsync_trigger = (hsync_sample_counter > hsync_samples_lb); // single cycle high
 
 // for testing
-// always_comb begin
-//     in_vsync_range = (magnitude > VSYNC_LB && magnitude < VSYNC_UB);
-//     in_hsync_range = (magnitude > HSYNC_LB && magnitude < HSYNC_UB);
-//     in_cb_range = (magnitude > CB_LB && magnitude < CB_UB);
-// end
+ always_comb begin
+     in_vsync_range = (magnitude > VSYNC_LB && magnitude < VSYNC_UB);
+     in_hsync_range = (magnitude > HSYNC_LB && magnitude < HSYNC_UB);
+     in_cb_range = (magnitude > CB_LB && magnitude < CB_UB);
+ end
 
-// assign vsync_trigger = (vsync_sample_counter > VSYNC_SAMPLES_LB); // not a single cycle high (doesn't have to be)
-// assign hsync_trigger = (hsync_sample_counter > HSYNC_SAMPLES_LB); // single cycle high
+ assign vsync_trigger = (vsync_sample_counter > VSYNC_SAMPLES_LB); // not a single cycle high (doesn't have to be)
+ assign hsync_trigger = (hsync_sample_counter > HSYNC_SAMPLES_LB); // single cycle high
 
 enum {RESET, GO} hsync_counter_state;
 
@@ -170,7 +188,7 @@ end
 
 
 // STATE MACHINE ///////////////////////////////////////////////////////
-logic [2:0] state;
+//logic [2:0] state;
 localparam IDLE = 0;
 localparam FRAME_SYNC = 1;
 localparam EVENODD = 2;
@@ -180,10 +198,10 @@ localparam DECODE_LINE = 5;
 
 logic odd_even_interlace_parity;
 logic check_evenodd;
-logic [3:0] hsync_counter;
+//logic [3:0] hsync_counter;
 localparam HSYNC_COUNT = 11;
 // assign check_evenodd = (hsync_counter == HSYNC_COUNT-1);
-logic past_hsync_trigger;
+//logic past_hsync_trigger;
 
 always_ff @(posedge s00_axis_aclk) begin
     if (!s00_axis_aresetn) begin
@@ -205,10 +223,10 @@ always_ff @(posedge s00_axis_aclk) begin
                     odd_even_interlace_parity <= 1; // first assume even
                 end
                 EVENODD: begin // between the 11th and 12th hsync line
-                    // if (magnitude < ODDEVEN_TH) begin
+                     if (magnitude < ODDEVEN_TH) begin
                     // if (magnitude < oddeven_th) begin
-                    //     odd_even_interlace_parity <= 0; // if it ever goes below 71 threshold it's odd
-                    // end
+                         odd_even_interlace_parity <= 0; // if it ever goes below 71 threshold it's odd
+                     end
                     if (hsync_trigger && !past_hsync_trigger) begin
                         state <= COLORBURST;
                         // state <= IDLE;
@@ -217,8 +235,8 @@ always_ff @(posedge s00_axis_aclk) begin
                     end
                 end
                 COLORBURST: begin
-                    // if (cb_sample_counter > CB_SAMPLES_LB) begin
-                    if (cb_sample_counter > cb_samples_ub) begin
+                     if (cb_sample_counter > CB_SAMPLES_LB) begin
+//                    if (cb_sample_counter > cb_samples_ub) begin
                         cb_sample_counter <= 0;
                         state <= CB_TRIGGER;
                     end else if (in_cb_range) begin

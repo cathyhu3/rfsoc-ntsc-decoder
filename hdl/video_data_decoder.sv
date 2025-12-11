@@ -54,6 +54,11 @@ module video_data_decoder #
     // AXI4-Stream handshake signals
     assign s00_axis_tready = m00_axis_tready;
     assign m00_axis_tdata = {18'b0, trigger, oddeven, state_val, y};
+    
+//    assign m00_axis_tvalid = 1;
+//    assign m00_axis_tstrb = s00_axis_tstrb;
+//    assign m00_axis_tlast = s00_axis_tlast;
+
 
     // FSM stuff
     typedef enum logic {IDLE, DECODE} fsm_state_t;
@@ -71,18 +76,18 @@ module video_data_decoder #
             state_val <= 0;
             y <= 0;
 
-            m00_axis_tstrb <= 0;
-            m00_axis_tlast <= 0;    
-            m00_axis_tvalid <= 0;
+//            m00_axis_tstrb <= 0;
+//            m00_axis_tlast <= 0;    
+//            m00_axis_tvalid <= 0;
 
         end else begin
 
 
             if (s00_axis_tvalid && s00_axis_tready) begin
 
-                m00_axis_tvalid <= 1;
-                m00_axis_tstrb <= s00_axis_tstrb;
-                m00_axis_tlast <= s00_axis_tlast;
+//                m00_axis_tvalid <= 1;
+//                m00_axis_tstrb <= s00_axis_tstrb;
+//                m00_axis_tlast <= s00_axis_tlast;
 
                 case (fsm)
 
@@ -95,7 +100,8 @@ module video_data_decoder #
                             line_sample_count <= line_sample_count + 1;     // increment counter
                             trigger <= 1;  
                             if (magnitude < black_level && magnitude > white_level) begin
-                                y <= 256 * (magnitude - white_level) / (black_level - white_level); // map cordic magnitude to 8-bit (0-255)
+//                                y <= 256 * (magnitude - white_level) / (black_level - white_level); // map cordic magnitude to 8-bit (0-255)
+                                  y <= (magnitude-40) << 1;
                             end
                             else begin
                                 y <= 0; // set to black
@@ -117,7 +123,8 @@ module video_data_decoder #
                         if (line_sample_count < ACTIVE_SAMPLES_PER_LINE-1) begin
                             line_sample_count <= line_sample_count + 1;
                             if (magnitude < black_level && magnitude > white_level) begin
-                                y <= 256 * (magnitude - white_level) / (black_level - white_level); // map cordic magnitude to 8-bit (0-255)
+//                                y <= 256 * (magnitude - white_level) / (black_level - white_level); // map cordic magnitude to 8-bit (0-255)
+                                    y <= (magnitude-40) << 1;
                             end
                             else begin
                                 y <= 0; // set to black
@@ -136,12 +143,26 @@ module video_data_decoder #
                         fsm <= IDLE;
                     end
                 endcase
-            end else if (m00_axis_tvalid && m00_axis_tready) begin
-                // Output handshake completed
-                m00_axis_tvalid <= 0;
             end
         end
     end
+    
+    
+always_ff @(posedge s00_axis_aclk) begin
+    if (!s00_axis_aresetn) begin
+        m00_axis_tstrb = 0;
+        m00_axis_tvalid = 0;
+        m00_axis_tlast = 0;
+    end else begin
+        if (s00_axis_tvalid && s00_axis_tready) begin // input handshake
+            m00_axis_tvalid <= 1;
+            m00_axis_tlast <= s00_axis_tlast;
+            m00_axis_tstrb <= s00_axis_tstrb;
+        end else if (m00_axis_tvalid && m00_axis_tready) begin // output handshake (data has been transferred)
+            m00_axis_tvalid <= 0;
+        end
+    end
+end
 
 endmodule
 

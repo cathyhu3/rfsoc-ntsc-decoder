@@ -1,0 +1,9 @@
+0.7
+2020.2
+May 21 2025
+22:59:56
+/home/thagenlo/Desktop/rfsoc-ntsc-decoder/hdl/cordic.sv,1765300559,systemVerilog,,,,cordic,,,,,,,,
+/home/thagenlo/Desktop/rfsoc-ntsc-decoder/hdl/sync_detector_axis.sv,1765397934,systemVerilog,,,,sync_detector_axis,,,,,,,,
+/home/thagenlo/Desktop/rfsoc-ntsc-decoder/hdl/top.sv,1765397760,systemVerilog,,,,top,,,,,,,,
+/home/thagenlo/Desktop/rfsoc-ntsc-decoder/hdl/video_data_decoder.sv,1765393756,systemVerilog,,,,video_data_decoder,,,,,,,,
+/home/thagenlo/Desktop/rfsoc-ntsc-decoder/sim_build/cocotb_vivado_dump.v,1765397936,systemVerilog,,,,cocotb_vivado_dump,,,,,,,,
