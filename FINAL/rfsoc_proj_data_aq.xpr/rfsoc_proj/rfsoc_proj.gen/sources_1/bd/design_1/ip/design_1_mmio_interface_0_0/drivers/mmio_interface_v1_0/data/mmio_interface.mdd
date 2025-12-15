@@ -1,0 +1,10 @@
+
+
+OPTION psf_version = 2.1;
+
+BEGIN DRIVER mmio_interface
+	OPTION supported_peripherals = (mmio_interface);
+	OPTION copyfiles = all;
+	OPTION VERSION = 1.0;
+	OPTION NAME = mmio_interface;
+END DRIVER
